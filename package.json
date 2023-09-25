@@ -23,6 +23,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.18.2",
     "path": "^0.12.7",
     "pg": "^8.11.3",
