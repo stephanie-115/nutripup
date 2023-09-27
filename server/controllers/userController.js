@@ -70,4 +70,28 @@ userController.verifyUser = async (req, res, next) => {
   return next();
 };
 
+userController.viewAllDogs = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const sqlCommand = `
+      SELECT dogs.*
+      FROM dogs
+      JOIN users ON users.user_id = dogs.user_id
+      WHERE users.user_id = $1
+    `;
+    const values = [id];
+    const result = await db.query(sqlCommand, values);
+
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(404).json({ message: 'No dogs found for this user.' });
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+
 module.exports = userController;
