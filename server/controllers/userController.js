@@ -60,7 +60,6 @@ userController.verifyUser = async (req, res, next) => {
     if(matched) {
         res.locals.signIn = true;
         res.locals.email = result.rows[0].email;
-        res.locals.password = result.rows[0].password;
       }
       //if pw doesn't match, sign-in is unsccessful
       else res.locals.signIn = false;
@@ -75,16 +74,13 @@ userController.viewAllDogs = async (req, res, next) => {
 
   try {
     const sqlCommand = `
-      SELECT dogs.*
-      FROM dogs
-      JOIN users ON users.user_id = dogs.user_id
-      WHERE users.user_id = $1
+    SELECT * FROM dogs WHERE user_id = $1;
     `;
     const values = [id];
     const result = await db.query(sqlCommand, values);
 
     if (result.rows.length > 0) {
-      res.status(200).json(result.rows);
+      res.locals.displayDogs = result.rows;
     } else {
       res.status(404).json({ message: 'No dogs found for this user.' });
     }

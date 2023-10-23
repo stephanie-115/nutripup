@@ -1,7 +1,8 @@
 const path = require('path');
 const express = require('express');
 // const userRouter = require('../routes/userRouter');
-// const recipeRouter = require('../routes/recipeRouter')
+// const dogRouter = require('../routes/dogRouter')
+// const chatRouter = require('../routes/chatRouter')
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -28,7 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes:
 // app.use('/user', userRouter);
-// app.use('/recipe', recipeRouter)
+// app.use('/dog', dogRouter);
+// app.use('/recipe, chatRouter);
 
 ///serve main index.html file
 app.get('/', (req, res) => {

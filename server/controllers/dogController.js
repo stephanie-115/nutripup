@@ -14,10 +14,10 @@ function calculateCalories(dogDetails) {
   };
 
   const activity = () => {
-    if (dogDetails.activityLevel === "inactive") return 1;
-    if (dogDetails.activityLevel === "somewhat active") return 1.2;
-    if (dogDetails.activityLevel === "active") return 1.4;
-    if (dogDetails.activityLevel === "very active") return 1.6;
+    if (dogDetails.activityLevel === "Inactive") return 1;
+    if (dogDetails.activityLevel === "Somewhat Active") return 1.2;
+    if (dogDetails.activityLevel === "Active") return 1.4;
+    if (dogDetails.activityLevel === "Very Active") return 1.6;
   };
 
   return Math.round(energyReq() * reproductiveStatus() * activity());
@@ -37,7 +37,7 @@ function calculateCarbs(calories) {
 
 //adding dog to the database:
 dogController.addDog = async (req, res, next) => {
-  const { dogName, dogBreed, idealWeight, activityLevel, neutered } = req.body;
+  const { dogName, dogBreed, idealWeight, activityLevel, neutered, allergies } = req.body;
   const { id } = req.params; 
 
   // Calculate nutritional details
@@ -47,29 +47,27 @@ dogController.addDog = async (req, res, next) => {
   const carbs = calculateCarbs(calories);
 
   const sqlCommand = `
-    INSERT INTO dogs (user_id, dog_name, dog_breed, ideal_weight, activity_level, neutered, total_calories, protein, fat, carbs)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+    INSERT INTO dogs (user_id, dog_name, dog_breed, ideal_weight, activity_level, neutered, allergies, total_calories, protein, fat, carbs)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
     RETURNING *
   `;
-  const values = [id, dogName, dogBreed, idealWeight, activityLevel, neutered, calories, protein, fat, carbs];
+  const values = [id, dogName, dogBreed, idealWeight, activityLevel, neutered, allergies, calories, protein, fat, carbs];
 
   try {
     const result = await db.query(sqlCommand, values);
     res.status(201).json({ message: "Dog profile created successfully." });
-    next();
   } catch (err) {
     console.error("Error during dog INSERT operation:", err);
     res.status(500).send('Error adding new dog to database.');
-    next();
   }
 };
 
 //updating dog in the database:
 dogController.updateDog = async (req, res, next) => {
   const { id } = req.params;
-  const attributes = [dogName, dogBreed, idealWeight, activityLevel, neutered];
+  const attributes = [dogName, dogBreed, idealWeight, activityLevel, neutered, allergies];
 
-  //do any of the attributes affext the nutrient calculations?
+  //do any of the attributes affect the nutrient calculations?
   const requiresRecalculation = ['idealWeight', 'activityLevel', 'neutered'].some(attr => req.body[attr]);
 
   let nutrientUpdates = [];
