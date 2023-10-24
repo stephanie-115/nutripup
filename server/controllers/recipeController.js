@@ -1,10 +1,13 @@
-const Dog = require('../database/model');
+const db = require('../database/model');
 const recipeService = require('../services/recipeService');
+const { getCompletion } = require('../services/openaiService');
 
-const getDogRecipe = async (req, res) => {
+const recipeController = {};
+
+recipeController.getDogRecipe = async (req, res) => {
     try {
         const dogId = req.params.id;
-        const dogDetails = await Dog.findById(dogId);
+        const dogDetails = await db.findById(dogId);
 
         if(!dogDetails) return res.status(404).json({error: "Dog not found"});
 
@@ -38,4 +41,23 @@ const getDogRecipe = async (req, res) => {
     }
 };
 
-module.exports = getDogRecipe
+recipeController.deleteRecipe = async (req,res) => {
+        const { recipeTitle } = req.body;
+        const { id } = req.params;
+
+        const sqlCommand = `
+          DELETE from recipes
+          WHERE id = $1 and recipe_title = $2
+        `;
+        const values = [id, recipeTitle];
+
+        try {
+            const result = await db.query(sqlCommand, values);
+            res.status(201).json({ message: "Recipe deleted successfully." });
+        } catch (err) {
+            console.error("Error during recipe DELETE operation:", err);
+            res.status(500).send('Error deleting recipe in database.');
+          };
+    };
+
+module.exports = recipeController;
