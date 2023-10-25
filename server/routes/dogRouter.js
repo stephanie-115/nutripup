@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/:id/add', dogController.addDog);
 
 // Route to update dog info:
-router.post('/:id/update', dogController.updateDog);
+router.put('/:id/update', dogController.updateDog);
 
 // Route to delete dog from user profile:
 router.delete('/:id/delete', dogController.deleteDog);
