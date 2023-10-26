@@ -31,24 +31,54 @@ recipeController.getDogRecipe = async (req, res) => {
       title: response.content.split("\n")[0].replace("Title: ", ""),
       recipe: response.content.split("\n")[1].replace("Recipe: ", ""),
     };
-
-    //store fetched recipe in db
-    await recipeService.storeRecipe(
-      dogId,
-      parsedResponse.title,
-      parsedResponse.recipe
-    );
-
-    res.json(parsedResponse);
+    res.json({ message: 'Recipe generated successfully.', data: parsedResponse});
   } catch (err) {
     console.error("Error in recipeController.getDogRecipe", err);
     res.status(500).send("Error creating recipe.");
   }
 };
 
+//Save recipe to profile
+recipeController.saveRecipe = async (req,res) => {
+  const { title, recipe } = req.body;
+  const { dogId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    //validate data
+    if (!dogId || !recipeTitle || !recipeContent) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+    const savedRecipe = await recipeService.storeRecipe(dogId, title, recipe);
+
+    if (savedRecipe) {
+      res.json({ message: 'Recipe saved successfully!' });
+    } else {
+      res.status(400).json({ error: 'Failed to save recipe.' });
+    }
+  } catch (err) {
+    console.error('Error in recipeController.saveRecipe.');
+    res.status(500).send('Error saving recipe');
+  }
+};
+
 //Display all recipes for a dog
 recipeController.displayAllRecipes = async (req, res) => {
-  const { id } = req.params;
+  const { dogID } = req.params;
+  const userId = req.user.id;
+
+  //check if dog belongs to user:
+  const ownershipCheckSql = `SELECT user_id FROM dogs WHERE dog_id = $1`;
+  const dog = await db.query(ownershipCheckSql, [dogId]);
+
+  if (!dog.rows[0] || dog.rows[0].user_id !== userId) {
+    return res
+      .status(403)
+      .json({
+        message: "You do not have permission to view recipes for this dog.",
+      });
+  }
+
   try {
     const sqlCommand = `
     SELECT * from recipes WHERE dog_id = $1
@@ -111,7 +141,7 @@ recipeController.editRecipe = async (req, res) => {
 // Delete any recipe from a dog's profile
 recipeController.deleteRecipe = async (req, res) => {
   const { recipeTitle } = req.body;
-  const dogId = req.params.id;
+  const dogId = req.params;
   const userId = req.user.id;
 
   // First check if the dog belongs to the user

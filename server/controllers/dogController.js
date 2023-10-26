@@ -39,7 +39,7 @@ function calculateCarbs(calories) {
 dogController.addDog = async (req, res, next) => {
   const { dogName, dogBreed, idealWeight, activityLevel, neutered, allergies } =
     req.body;
-  const { id } = req.params;
+  const userId = req.user.id;
 
   // Calculate nutritional details
   const calories = calculateCalories(req.body);
@@ -53,7 +53,7 @@ dogController.addDog = async (req, res, next) => {
     RETURNING *
   `;
   const values = [
-    id,
+    userId,
     dogName,
     dogBreed,
     idealWeight,
@@ -68,7 +68,11 @@ dogController.addDog = async (req, res, next) => {
 
   try {
     const result = await db.query(sqlCommand, values);
-    res.status(201).json({ message: "Dog profile created successfully." });
+    res.status(201).json({ 
+      message: "Dog profile created successfully.",
+      newDog: result.rows[0]
+    
+    });
   } catch (err) {
     console.error("Error in dogController.addDog", err);
     res.status(500).send("Error adding dog to user profile.");
@@ -81,19 +85,19 @@ dogController.updateDog = async (req, res, next) => {
   const userId = req.user.id;
 
 //ownership check:
-const dog = await db.query("SELECT user_id FROM dogs WHERE dog_id = $1", [id]);
-if(dog.rows[0].user_id !== req.user.id) {
-  return res.status(403).json({ message: 'Unauthorized: You do not have permission to update this dog.' });
-}
+const dog = await db.query("SELECT * FROM dogs WHERE dog_id = $1 AND user_id = $2", [dogId, userId]);
+  if (!dog.rows.length) {
+    return res.status(403).json({ message: 'Unauthorized: You do not have permission to update this dog.' });
+  }
 
   const attributes = [
-    dogName,
-    dogBreed,
-    idealWeight,
-    activityLevel,
-    neutered,
-    allergies,
-  ];
+    "dogName",
+    "dogBreed",
+    "idealWeight",
+    "activityLevel",
+    "neutered",
+    "allergies",
+  ];  
 
   //do any of the attributes affect the nutrient calculations?
   const requiresRecalculation = [
@@ -126,17 +130,19 @@ if(dog.rows[0].user_id !== req.user.id) {
   if (!updates.length) {
     return res.status(400).send("No valid attributes provided for update");
   }
-  const values = [
-    ...attributes.filter(attr => req.body[attr] !== undefined).map(attr => req.body[attr]),
-    dogId,
-  ];
 
   const sqlCommand = `
     UPDATE dogs
     SET ${updates.join(", ")}
-    WHERE dog_id = $${updates.length + 1}
+    WHERE dog_id = $${updates.length + 1} AND user_id = $${updates.length + 2}
     RETURNING *
-`;
+  `;
+
+  const values = [
+    ...attributes.filter(attr => req.body[attr] !== undefined).map(attr => req.body[attr]),
+    userId,
+    dogId,
+  ];
 
   try {
     const result = await db.query(sqlCommand, values);
@@ -155,20 +161,20 @@ if(dog.rows[0].user_id !== req.user.id) {
 
 //deleting dog from the database:
 dogController.deleteDog = async (req, res, next) => {
-  const { dogName } = req.body;
-  const { id } = req.params;
+  const { dogId } = req.params;
+  const userId = req.user.id;
 
-//ownership check: const dog = await db.query("SELECT user_id FROM dogs WHERE dog_id = $1", [id]);
-if(dog.rows[0].user_id !== req.user.id) {
+//ownership check: 
+const dog = await db.query("SELECT user_id FROM dogs WHERE dog_id = $1", [dogId]);
+if (!dog.rows.length || dog.rows[0].user_id !== userId) {
   return res.status(403).json({ message: 'Unauthorized: You do not have permission to delete this dog.' });
 }
 
-
   const sqlCommand = `
     DELETE FROM dogs
-    WHERE id = $1 AND dog_name = $2
+    WHERE user_id = $1 AND dog_id = $2
   `;
-  const values = [id, dogName];
+  const values = [userId, dogId];
 
   try {
     const result = await db.query(sqlCommand, values);

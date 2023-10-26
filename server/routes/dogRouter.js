@@ -1,15 +1,16 @@
 const express = require ('express');
 const dogController = require('../controllers/dogController');
+const auth = require('../middleware/auth');
 
 const router = express.Router();
 
-// Route to add dog to user profile:
-router.post('/:id/add', dogController.addDog);
+//add dog to profile
+router.post('/add', auth.isAuthenticated, dogController.addDog);
 
-// Route to update dog info:
-router.put('/:id/update', dogController.updateDog);
+//updating dog info
+router.put('/edit/:dogId', auth.isAuthenticated, dogController.updateDog);
 
-// Route to delete dog from user profile:
-router.delete('/:id/delete', dogController.deleteDog);
+//delete dog from profile
+router.delete('/delete/:dogId', auth.isAuthenticated, dogController.deleteDog);
 
-
+module.exports = router;   

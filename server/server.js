@@ -1,4 +1,5 @@
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const path = require('path');
 const express = require('express');
 const passportConfig = require('./config/passportConfig');
@@ -36,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 //routes:
 app.use('/user', userRouter);
 app.use('/dog', dogRouter);
-//app.use('/recipe', recipeRouter);
+app.use('/recipe', recipeRouter);
 
 ///serve main index.html file
 app.get('/', (req, res) => {
