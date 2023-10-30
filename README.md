@@ -1,5 +1,3 @@
-# nutripup
-
 # NutriPup
 
 ## Description
@@ -11,8 +9,6 @@ NutriPup is a unique application designed for dog owners who are deeply interest
 The inspiration behind NutriPup stems from my personal experience during the pandemic, where I delved deep into understanding the nutritional needs of my English Bulldog, Stanley. He faced painful skin conditions and was slightly overweight, despite following the recommended portions on his dog food packaging. This led my husband and I to embark on a journey of canine culinary artistry. NutriPup was born out of the desire to share this knowledge and passion with fellow dog enthusiasts, providing a platform to ensure the health and happiness of their four-legged companions.
 
 ## Setup and Installation
-
-### Prerequisites
 
 ### Prerequisites
 - Node.js
