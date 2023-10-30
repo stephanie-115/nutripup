@@ -45,11 +45,6 @@ userController.createUser = async (req, res, next) => {
   }
 };
 
-//if user is already signed in, redirect them
-userController.signInPage = (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'path', 'to', 'sign-in.html'));
-};
-
 //verify that email and pw are correct
 userController.verifyUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -87,7 +82,7 @@ userController.verifyUser = async (req, res, next) => {
 
 //view all dogs associated with the user
 userController.viewAllDogs = async (req, res, next) => {
-  const { id } = req.params;
+  const { id } = req.user.id;
 
 //ownership check:
 if (req.user && req.user.id !== parseInt(id)) {

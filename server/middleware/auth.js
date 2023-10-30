@@ -10,7 +10,13 @@ const auth = {
       return res.redirect('/');  
     }
     return next();
+  },
+
+  setTestUser(req, res, next) {
+    req.user = { id: 1 };
+    next();
   }
+  
 };
 
 module.exports = auth;

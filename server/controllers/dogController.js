@@ -4,20 +4,20 @@ const dogController = {};
 
 // Helper functions to determine total calories, protein, fat, carbs
 function calculateCalories(dogDetails) {
-  const toKG = () => dogDetails.idealWeight * 2.2;
+  const toKG = () => dogDetails.ideal_weight * 2.2;
 
   const energyReq = () => (70 * toKG()) ** 0.75;
 
   const reproductiveStatus = () => {
-    if (dogDetails.neutered === "yes") return 1.6;
+    if (dogDetails.neutered === "Yes") return 1.6;
     else return 1.8;
   };
 
   const activity = () => {
-    if (dogDetails.activityLevel === "Inactive") return 1;
-    if (dogDetails.activityLevel === "Somewhat Active") return 1.2;
-    if (dogDetails.activityLevel === "Active") return 1.4;
-    if (dogDetails.activityLevel === "Very Active") return 1.6;
+    if (dogDetails.activity_level === "Inactive") return 1;
+    if (dogDetails.activity_level === "Somewhat Active") return 1.2;
+    if (dogDetails.activity_level === "Active") return 1.4;
+    if (dogDetails.activity_level === "Very Active") return 1.6;
   };
 
   return Math.round(energyReq() * reproductiveStatus() * activity());
@@ -79,85 +79,74 @@ dogController.addDog = async (req, res, next) => {
   }
 };
 
-//updating dog in the database:
+// Helper function to create update string and values for the query
+function getUpdateStringAndValues(dogDetails, reqBody, userId, dogId) {
+  const updates = [];
+  const values = [dogId, userId];
+  let valCount = 3;
+
+  for (const [key, value] of Object.entries(reqBody)) {
+    if (dogDetails.hasOwnProperty(key)) {
+      updates.push(`${key} = $${valCount}`);
+      values.push(value);
+      valCount += 1;
+    }
+  }
+
+  if (updates.length) {
+    const requiresRecalculation = ["ideal_weight", "activity_level", "neutered"].some(attr => reqBody[attr] !== undefined);
+    
+    if (requiresRecalculation) {
+      const updatedDogData = {
+        ...dogDetails,
+        ...reqBody,
+      };
+      
+      const calories = calculateCalories(updatedDogData);
+      const protein = calculateProtein(calories);
+      const fat = calculateFat(calories);
+      const carbs = calculateCarbs(calories);
+      
+      updates.push(`total_calories = ${calories}`, `protein = ${protein}`, `fat = ${fat}`, `carbs = ${carbs}`);
+    }
+  }
+
+  return { updateString: updates.join(', '), values };
+}
+
+// Updating dog in the database
 dogController.updateDog = async (req, res, next) => {
   const { dogId } = req.params;
   const userId = req.user.id;
 
-//ownership check:
-const dog = await db.query("SELECT * FROM dogs WHERE dog_id = $1 AND user_id = $2", [dogId, userId]);
-  if (!dog.rows.length) {
-    return res.status(403).json({ message: 'Unauthorized: You do not have permission to update this dog.' });
-  }
-
-  const attributes = [
-    "dogName",
-    "dogBreed",
-    "idealWeight",
-    "activityLevel",
-    "neutered",
-    "allergies",
-  ];  
-
-  //do any of the attributes affect the nutrient calculations?
-  const requiresRecalculation = [
-    "idealWeight",
-    "activityLevel",
-    "neutered",
-  ].some((attr) => req.body[attr]);
-
-  let nutrientUpdates = [];
-  if (requiresRecalculation) {
-    const calories = calculateCalories(req.body);
-    const protein = calculateProtein(calories);
-    const fat = calculateFat(calories);
-    const carbs = calculateCarbs(calories);
-    nutrientUpdates = [
-      `calories = ${calories}`,
-      `protein = ${protein}`,
-      `fat = ${fat}`,
-      `carbs = ${carbs}`,
-    ];
-  }
-
-  const updates = [
-    ...attributes
-      .filter((attr) => req.body[attr])
-      .map((attr) => `${attr} = $${attributes.indexOf(attr) + 2}`),
-    ...nutrientUpdates,
-  ];
-
-  if (!updates.length) {
-    return res.status(400).send("No valid attributes provided for update");
-  }
-
-  const sqlCommand = `
-    UPDATE dogs
-    SET ${updates.join(", ")}
-    WHERE dog_id = $${updates.length + 1} AND user_id = $${updates.length + 2}
-    RETURNING *
-  `;
-
-  const values = [
-    ...attributes.filter(attr => req.body[attr] !== undefined).map(attr => req.body[attr]),
-    userId,
-    dogId,
-  ];
-
   try {
-    const result = await db.query(sqlCommand, values);
-    res
-      .status(200)
-      .json({
-        message: "Dog profile updated successfully",
-        updatedDog: result.rows[0],
-      });
-    next();
+    // Ownership check
+    const result = await db.query("SELECT * FROM dogs WHERE id = $1 AND user_id = $2", [dogId, userId]);
+    const dog = result.rows[0];
+
+    if (!dog) {
+      return res.status(403).json({ message: 'Unauthorized: You do not have permission to update this dog.' });
+    }
+
+    const { updateString, values } = getUpdateStringAndValues(dog, req.body, userId, dogId);
+
+    if (!updateString) {
+      return res.status(400).json({ message: 'No valid attributes provided for update' });
+    }
+
+    const updateResult = await db.query(`UPDATE dogs SET ${updateString} WHERE id = $1 AND user_id = $2 RETURNING *`, values);
+    const updatedDog = updateResult.rows[0];
+
+    res.status(200).json({
+      message: 'Dog profile updated successfully',
+      updatedDog,
+    });
   } catch (err) {
-    console.error("Error in dogController.updateDog", err);
+    console.error("Error in dogController.updateDog", err.message || err);
     res.status(500).send("Error updating dog profile.");
   }
 };
+
 
 //deleting dog from the database:
 dogController.deleteDog = async (req, res, next) => {
@@ -165,14 +154,14 @@ dogController.deleteDog = async (req, res, next) => {
   const userId = req.user.id;
 
 //ownership check: 
-const dog = await db.query("SELECT user_id FROM dogs WHERE dog_id = $1", [dogId]);
+const dog = await db.query("SELECT user_id FROM dogs WHERE id = $1", [dogId]);
 if (!dog.rows.length || dog.rows[0].user_id !== userId) {
   return res.status(403).json({ message: 'Unauthorized: You do not have permission to delete this dog.' });
 }
 
   const sqlCommand = `
     DELETE FROM dogs
-    WHERE user_id = $1 AND dog_id = $2
+    WHERE user_id = $1 AND id = $2
   `;
   const values = [userId, dogId];
 
