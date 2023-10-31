@@ -53,7 +53,7 @@ The inspiration behind NutriPup stems from my personal experience during the pan
 *For a complete list of dependencies, refer to `package.json`.*
 
 ## Testing
-End-to-end testing is planned using Jest. Documentation will be updated with testing instructions once implemented.
+Unit testing is planned using Jest. Documentation will be updated with testing instructions once implemented.
 
 ## Contributing
 Contributions are welcome! If you are interested in helping improve NutriPup, please follow these steps:
