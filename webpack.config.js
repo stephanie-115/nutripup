@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
@@ -10,7 +11,10 @@ module.exports = {
         publicPath: '/',
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+        template: './index.html'
+    })
     ],
     entry: {
         app: [
@@ -21,12 +25,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env']
+                        presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 }
             },
@@ -53,6 +57,9 @@ module.exports = {
             }
         ]
     },
+    resolve: {
+        extensions: ['.js', '.jsx'],
+      },      
     devServer: {
         static: {
             directory: path.join(__dirname, 'dist'),
