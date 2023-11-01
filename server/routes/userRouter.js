@@ -8,9 +8,9 @@ const router = express.Router();
 router.post("/sign-up", userController.createUser);
 
 //user sign-in route:
-router.post("/sign-in", auth.setTestUser, userController.verifyUser);
+router.post("/sign-in", userController.verifyUser);
 
 //display all user's dogs route:
-router.get("/all-dogs", auth.setTestUser, auth.isAuthenticated, userController.viewAllDogs);
+router.get("/all-dogs", auth.isAuthenticated, userController.viewAllDogs);
 
 module.exports = router;

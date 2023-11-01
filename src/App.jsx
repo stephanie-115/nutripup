@@ -1,13 +1,22 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import NavBar from './components/Navbar';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import NavBar from "./components/Navbar";
+import Home from './pages/Home';
+import UserProfile from './pages/UserProfile';
+import PuppyPortal from './pages/PuppyPortal';
 
 export default function App() {
   return (
-    <Router>
-      <div className="app">
+    <AuthProvider>
+      <Router>
         <NavBar />
-      </div>
-    </Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/puppyportal" element={<PuppyPortal />}  />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }

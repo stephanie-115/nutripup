@@ -4,24 +4,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: [
+      './src/index.js',
+      'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    ],
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: '/',
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({
         template: './index.html'
-    })
+        })
     ],
-    entry: {
-        app: [
-            './src/index.js',
-            'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-        ],
-    },
     module: {
         rules: [
             {
@@ -64,8 +61,9 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'dist'),
         },
-        compress: true,
-        port: 9000
-    }
-    
+        historyApiFallback: true,
+        hot: true,
+        port: 9000,
+    },
+    devtool: 'inline-source-map',
 };

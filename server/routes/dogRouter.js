@@ -5,12 +5,12 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 //add dog to profile
-router.post('/add', auth.setTestUser, auth.isAuthenticated, dogController.addDog);
+router.post('/add', auth.isAuthenticated, dogController.addDog);
 
 //updating dog info
-router.put('/edit/:dogId', auth.setTestUser, auth.isAuthenticated, dogController.updateDog);
+router.put('/edit/:dogId', auth.isAuthenticated, dogController.updateDog);
 
 //delete dog from profile
-router.delete('/delete/:dogId',auth.setTestUser, auth.isAuthenticated, dogController.deleteDog);
+router.delete('/delete/:dogId', auth.isAuthenticated, dogController.deleteDog);
 
 module.exports = router;   
