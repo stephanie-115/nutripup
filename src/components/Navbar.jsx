@@ -7,5 +7,4 @@ export default function NavBar() {
   const pages = ['Home', 'About', 'Contact', 'Puppy Portal'];
   const settings = isAuthenticated ? ['Profile Settings', 'Sign Out'] : ['Sign In', 'Sign Up'];
 
-  //const handlePageClick
 }

@@ -64,6 +64,11 @@ module.exports = {
         historyApiFallback: true,
         hot: true,
         port: 9000,
+        proxy: {
+            '/user': 'http://localhost:3000',
+            '/dog': 'http://localhost:3000',
+            '/recipe': 'http://localhost:3000',
+          },
     },
     devtool: 'inline-source-map',
 };

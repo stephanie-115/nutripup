@@ -1,10 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import Home from './pages/Home';
 import UserProfile from './pages/UserProfile';
 import PuppyPortal from './pages/PuppyPortal';
+import SignUp from './pages/SignUp';
 
 export default function App() {
   return (
@@ -15,6 +16,8 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/puppyportal" element={<PuppyPortal />}  />
+          <Route path="/sign-up" element={<SignUp />}/>
+          <Route path="/sign-in" element={<SignUp />}/>
         </Routes>
       </Router>
     </AuthProvider>

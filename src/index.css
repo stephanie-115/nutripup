@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+h1 {
+    font-size: 80px;
+    color: aquamarine;
+    margin: 0;
+    padding-bottom: 50px;
+}
+
+.input {
+    border-color: aquamarine;
+    border-style: solid;
+    margin: 8px 0;
+    width: 50%;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.signup-button {
+  padding: 12px 20px;
+  font-size: 18px;
+  background-color: aquamarine;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  width: 25%; 
+}
+.signup-button:hover {
+    background-color: darkgreen;
+    transform: scale(1.05);
+  }
+
+.input:first-child {
+    margin-top: 0;
+  }
+  
+  .input:last-child {
+    margin-bottom: 0;
+  }
