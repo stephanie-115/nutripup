@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../index.css";
-import AuthContext from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const SuccessModal = ({ isOpen, onClose }) => {
@@ -17,7 +16,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default function SignUp() {
+function SignUp() {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -29,9 +28,9 @@ export default function SignUp() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const navigate = useNavigate();
 
-  // closes the modal and redirects user
+  //close modal and redirect user
   const closeAndRedirect = () => {
-    navigate('/');
+    navigate("/");
     setShowSuccessModal(false);
   };
 
@@ -86,10 +85,7 @@ export default function SignUp() {
     <div className="container">
       {showSuccessModal ? (
         // Render only the success modal when it is open
-        <SuccessModal
-          isOpen={showSuccessModal}
-          onClose={closeAndRedirect}
-        />
+        <SuccessModal isOpen={showSuccessModal} onClose={closeAndRedirect} />
       ) : (
         <>
           <h1>Sign Up Here</h1>
@@ -133,3 +129,5 @@ export default function SignUp() {
     </div>
   );
 }
+
+export { SuccessModal, SignUp };
