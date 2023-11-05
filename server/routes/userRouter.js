@@ -13,4 +13,7 @@ router.post("/sign-in", userController.verifyUser);
 //display all user's dogs route:
 router.get("/all-dogs", auth.isAuthenticated, userController.viewAllDogs);
 
+//user sign-out route:
+router.post('/sign-out', auth.isAuthenticated, userController.signOut);
+
 module.exports = router;

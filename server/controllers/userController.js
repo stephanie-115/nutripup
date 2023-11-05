@@ -106,5 +106,14 @@ if (req.user && req.user.id !== parseInt(id)) {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+userController.signOut = (req, res, next) => {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    req.session.destroy(() => {
+      res.clearCookie('connect.sid');
+      res.status(200).json({ message: 'Successfully signed out.' });
+    });
+  });
+};
 
 module.exports = userController;

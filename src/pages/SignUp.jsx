@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from '../contexts/AuthContext.js';
 
 const SuccessModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -27,6 +28,7 @@ function SignUp() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   //close modal and redirect user
   const closeAndRedirect = () => {
@@ -72,6 +74,7 @@ function SignUp() {
       }
       const data = await response.json();
       console.log(data);
+      login(data);
       setIsSuccess(true);
       setShowSuccessModal(true);
     } catch (error) {

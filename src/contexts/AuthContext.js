@@ -1,20 +1,23 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children, signOut }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] =  useState(true);
+  const [loading, setLoading] = useState(true);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
-    //fetch auth status from server
+    // Fetch auth status from the server
     fetch("http://localhost:3000/api/auth/check", { credentials: 'include' })
       .then(response => response.json())
       .then(data => {
-        //if user is authenticated, update user state
-        if (data.isAuthenticated) setUser(data.user);
-
-        //set loading to false regardless of auth status
+        if (data.isAuthenticated) {
+          // If user is authenticated, update user state
+          setUser(data.user);
+        }
+        // Set loading to false regardless of auth status
         setLoading(false);
       })
       .catch(error => {
@@ -22,15 +25,30 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       });
   }, []);
-  // render the context provider with the value prop containing user and isAuthenticated state
+//user login:
+const login = (userData) => {
+  //set user data when user successfully logs in
+  setUser(userData);
+};
+//user logout:
+const logout = () => {
+  setUser(null);
+  setShouldRedirect(true);
+}
+if (shouldRedirect) {
+  //reset state
+  setShouldRedirect(false);
+  return <Navigate to='/' />
+}
+  // Render the context provider with the value prop containing user, isAuthenticated, and sign out
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user }}>
-      {/* Only render children if not loading-- to prevent flash of unauthorized content*/}
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+      {/* Only render children if not loading to prevent seeing unauthorized content */}
       {!loading && children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext)
-}
+  return useContext(AuthContext);
+};

@@ -10,8 +10,8 @@ import SignIn from "./pages/SignIn";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,7 +20,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />}/>
           <Route path="/sign-in" element={<SignIn />}/>
         </Routes>
-      </Router>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }

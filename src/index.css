@@ -12,6 +12,24 @@ h1 {
     padding-bottom: 50px;
 }
 
+h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: fantasy;
+  font-weight: bolder;
+  color:darkcyan
+}
+p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: fantasy;
+  color: silver;
+  padding-left: 200px;
+  padding-right: 200px;
+}
+
 .input {
     border-color: aquamarine;
     border-style: solid;

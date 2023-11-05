@@ -1,10 +1,30 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import SignOutButton from './SignOutButton';
 
 export default function NavBar() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-  const pages = ['Home', 'About', 'Contact', 'Puppy Portal'];
-  const settings = isAuthenticated ? ['Profile Settings', 'Sign Out'] : ['Sign In', 'Sign Up'];
+  const handleSignOutClick = () => {
+    logout();
+    //navigate to the home page after logging out
+    navigate('/'); 
+  }
 
+  return (
+    <nav className='nav-bar'>
+      {isAuthenticated ? (
+        <>
+          <SignOutButton />
+        </>
+      ) : (
+        <>
+          <button onClick={() => navigate('/sign-in')}>Sign In</button>
+          <button onClick={() => navigate('/sign-up')}>Sign Up</button>
+        </>
+      )}
+    </nav>
+  )
 }

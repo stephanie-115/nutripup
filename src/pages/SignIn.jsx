@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { SuccessModal } from "./SignUp";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from '../contexts/AuthContext.js';
 
 export default function SignIn() {
   const [userData, setUserData] = useState({
@@ -12,6 +13,7 @@ export default function SignIn() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   //close modal and redirect user
   const closeAndRedirect = () => {
@@ -57,6 +59,7 @@ export default function SignIn() {
       }
       const data = await response.json();
       console.log(data);
+      login(data);
       setIsSuccess(true);
       setShowSuccessModal(true);
     } catch (error) {
@@ -98,7 +101,7 @@ export default function SignIn() {
               className="signup-button"
               disabled={isLoading}
             >
-                {isLoading ? 'Loading...' : 'Return to the Pack'}
+                {isLoading ? 'Loading...' : 'Rejoin the Pack'}
             </button>
         </form>
         </>
