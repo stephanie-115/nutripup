@@ -74,7 +74,3 @@ We expect contributors to adhere to our code of conduct, ensuring a welcoming an
 ## Support and Contact
 
 For support, questions, or feedback, please [email us](mailto:stephanie.terese@gmail.com).
-
-## License
-
-This project is currently unlicensed.
