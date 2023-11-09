@@ -68,7 +68,7 @@ app.use((err, req, res, next) => {
   res.json({ error: process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message, stack: err.stack });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}!!`);
 });

@@ -65,9 +65,9 @@ module.exports = {
         hot: true,
         port: 9000,
         proxy: {
-            '/user': 'http://localhost:3000',
-            '/dog': 'http://localhost:3000',
-            '/recipe': 'http://localhost:3000',
+            '/user': 'http://localhost:6000',
+            '/dog': 'http://localhost:6000',
+            '/recipe': 'http://localhost:6000',
           },
     },
     devtool: 'inline-source-map',
