@@ -6,6 +6,15 @@ import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 
+const CustomQuestion = styled(Typography)({
+  color: "darkcyan",
+  fontFamily: 'fantasy'
+});
+
+const CustomAnswer = styled(Typography)({
+  fontFamily: 'fantasy'
+})
+
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -56,16 +65,16 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel1")}
       >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>
+          <CustomQuestion>
             How does NutriPup determine my dog's nutritional needs?
-          </Typography>
+          </CustomQuestion>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          <CustomAnswer>
             NutriPup uses a custom algorithm that takes into account your dog's
             weight, activity level, and health conditions. Based on your input,
             it calculates the ideal nutritional requirements for your dog.
-          </Typography>
+          </CustomAnswer>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -73,17 +82,17 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel2")}
       >
         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>
+          <CustomQuestion>
             Can NutriPup generate recipes for dogs with specific dietary
             restrictions?
-          </Typography>
+          </CustomQuestion>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          <CustomAnswer>
             Yes, NutriPup can generate customized recipes using OpenAI's API,
             catering to specific dietary needs and restrictions your dog may
             have.
-          </Typography>
+          </CustomAnswer>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -91,16 +100,16 @@ export default function CustomizedAccordions() {
         onChange={handleChange("panel3")}
       >
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>
+          <CustomQuestion>
             Is NutriPup suitable for all breeds and ages of dogs?
-          </Typography>
+          </CustomQuestion>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          <CustomAnswer>
             NutriPup is designed to cater to the nutritional needs of dogs of
             all breeds and ages. However, we recommend consulting with your vet
             for puppies, senior dogs, or dogs with specific health issues.
-          </Typography>
+          </CustomAnswer>
         </AccordionDetails>
       </Accordion>
     </div>
