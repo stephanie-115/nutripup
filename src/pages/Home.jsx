@@ -2,7 +2,7 @@ import React from "react";
 import About from "./HomeComponents/About";
 import Features from "./HomeComponents/Features";
 import Testimonials from "./HomeComponents/Testimonials";
-import FAQ from "./HomeComponents/FAQ";
+import FAQ from "./HomeComponents/FAQBody";
 import Contact from "./HomeComponents/Contact";
 
 export default function Home() {
