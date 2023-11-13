@@ -7,6 +7,7 @@ const userRouter = require('./routes/userRouter');
 const dogRouter = require('./routes/dogRouter');
 const recipeRouter = require('./routes/recipeRouter');
 const cors = require('cors');
+const session = require('express-session');
 
 const app = express();
 
@@ -36,6 +37,13 @@ app.get('/api/auth/check', (req, res) => {
     return res.json({ isAuthenticated: false });
   }
 });
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { httpOnly: true, secure: false }
+}));
 
 // For development environment
 // if (process.env.NODE_ENV !== 'production') {
