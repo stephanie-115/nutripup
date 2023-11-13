@@ -5,8 +5,8 @@ import NavBar from "./components/NavBar";
 import Home from './pages/Home';
 import UserProfile from './pages/UserProfile';
 import PuppyPortal from './pages/PuppyPortal';
-import AddPup from './components/AddNewPup';
-import ViewPups from './components/ViewPups';
+import AddPup from './pages/AddNewPup';
+import ViewPups from './pages/ViewPups';
 import { SignUp } from './pages/SignUp';
 import SignIn from "./pages/SignIn";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function AddNewPup() {
+export default function CreateDogProfile() {
   const [dogName, setDogName] = useState("");
   const [selectedNum, setSelectedNum] = useState("0");
   const [yesNoChoice, setYesNoChoice] = useState("");
