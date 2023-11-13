@@ -38,18 +38,18 @@ app.get('/api/auth/check', (req, res) => {
 });
 
 // For development environment
-if (process.env.NODE_ENV !== 'production') {
-  const webpack = require('webpack');
-  const webpackDevMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
-  const webpackConfig = require('../webpack.config');
-  const compiler = webpack(webpackConfig);
+// if (process.env.NODE_ENV !== 'production') {
+  // const webpack = require('webpack');
+ //  const webpackDevMiddleware = require('webpack-dev-middleware');
+  // const webpackHotMiddleware = require('webpack-hot-middleware');
+  // const webpackConfig = require('../webpack.config');
+  // const compiler = webpack(webpackConfig);
 
-  app.use(webpackDevMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath,
-  }));
-  app.use(webpackHotMiddleware(compiler));
-}
+//   app.use(webpackDevMiddleware(compiler, {
+//     publicPath: webpackConfig.output.publicPath,
+//   }));
+//   app.use(webpackHotMiddleware(compiler));
+// }
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../dist')));
@@ -68,7 +68,7 @@ app.use((err, req, res, next) => {
   res.json({ error: process.env.NODE_ENV === 'production' ? 'An error occurred' : err.message, stack: err.stack });
 });
 
-const port = process.env.PORT || 6000;
+const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Listening on port ${port}!!`);
 });

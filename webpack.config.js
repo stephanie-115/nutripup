@@ -4,21 +4,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: [
-      './src/index.js',
-      'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-    ],
+    entry: ['./src/index.js'],
+    // entry: [
+    //   './src/index.js',
+    //   'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+    // ],
     output: {
       filename: 'bundle.js',
       path: path.resolve(__dirname, 'dist'),
       publicPath: '/',
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new HtmlWebpackPlugin({
-        template: './index.html'
+        new HtmlWebpackPlugin({
+            template: './index.html'
         })
-    ],
+    ],    
+    // plugins: [
+    //   new webpack.HotModuleReplacementPlugin(),
+    //   new HtmlWebpackPlugin({
+    //     template: './index.html'
+    //     })
+    // ],
     module: {
         rules: [
             {
@@ -65,9 +71,9 @@ module.exports = {
         hot: true,
         port: 9000,
         proxy: {
-            '/user': 'http://localhost:6000',
-            '/dog': 'http://localhost:6000',
-            '/recipe': 'http://localhost:6000',
+            '/user': 'http://localhost:8080',
+            '/dog': 'http://localhost:8080',
+            '/recipe': 'http://localhost:8080',
           },
     },
     devtool: 'inline-source-map',

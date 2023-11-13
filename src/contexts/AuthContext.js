@@ -10,7 +10,7 @@ export const AuthProvider = ({ children, signOut }) => {
 
   useEffect(() => {
     // Fetch auth status from the server
-    fetch("http://localhost:3000/api/auth/check", { credentials: 'include' })
+    fetch("http://localhost:8080/api/auth/check", { credentials: 'include' })
       .then(response => response.json())
       .then(data => {
         if (data.isAuthenticated) {

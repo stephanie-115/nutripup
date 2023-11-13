@@ -17,6 +17,7 @@ export default function NavBar() {
     <nav className='nav-bar'>
       {isAuthenticated ? (
         <>
+          <button onClick={() => navigate('/puppy-portal')}>Puppy Portal</button>
           <SignOutButton />
         </>
       ) : (

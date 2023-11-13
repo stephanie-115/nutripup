@@ -1,9 +1,9 @@
 import React from "react";
-import About from "./HomeComponents/About";
-import Features from "./HomeComponents/Features";
-import Testimonials from "./HomeComponents/Testimonials";
-import FAQ from "./HomeComponents/FAQBody";
-import Contact from "./HomeComponents/Contact";
+import About from '../components/About';
+import Features from '../components/Features';
+import Testimonials from '../components/Testimonials';
+import FAQ from '../components/FAQ';
+import Contact from '../components/Contact';
 
 export default function Home() {
   return (
