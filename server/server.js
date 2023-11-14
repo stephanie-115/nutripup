@@ -1,13 +1,13 @@
 const express = require('express');
+const passportConfig = require('./config/passportConfig');
 const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
-const passportConfig = require('./config/passportConfig');
 const userRouter = require('./routes/userRouter');
 const dogRouter = require('./routes/dogRouter');
 const recipeRouter = require('./routes/recipeRouter');
 const cors = require('cors');
-const session = require('express-session');
+
 
 const app = express();
 

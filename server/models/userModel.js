@@ -14,4 +14,16 @@ dogModel.getDogByIdAndUserId = async (dogId, userId) => {
   }
 };
 
-module.exports = dogModel;
+const userModel = {}
+
+userModel.getUserById = async (id) => {
+  try {
+    const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
+    return result.rows[0];
+  } catch (err) {
+    console.error('Error in getUserById:', err);
+    throw err;
+  }
+};
+
+module.exports = dogModel, userModel;

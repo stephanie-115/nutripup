@@ -2,6 +2,7 @@ const SALT_WORK_FACTOR = 10;
 const bcrypt = require("bcrypt");
 const db = require("../database/dbConfig");
 const path = require('path');
+const passport = require('passport');
 
 const userController = {};
 
@@ -46,38 +47,27 @@ userController.createUser = async (req, res, next) => {
 };
 
 //verify that email and pw are correct
-userController.verifyUser = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  //check if both email and password are provided
-  if (!email || !password || (!email && !password))
-    return res.status(400).json({ message: "Error in userController.verifyUser: not given all necessary inputs." });
-
-  try {
-    const sqlCommand = `
-      SELECT * FROM users WHERE email = $1
-    `;
-    const values = [email];
-    const result = await db.query(sqlCommand, values);
-
-    //if user doesn't exist, sign-in is unsuccessful, move to next middleware
-    if (!result.rows[0]) {
-      return res.status(401).json({ signIn: false, message: 'Incorrect email or password.'})
+userController.verifyUser = (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      console.error('Error in userController.verifyUser:', err);
+      return next(err);
+    }
+    if (!user) {
+      // Authentication failed
+      return res.status(401).json({ signIn: false, message: 'Incorrect email or password.' });
     }
 
-    //if user exists, verify correct pw
-    const matched = await bcrypt.compare(password, result.rows[0].password);
-    if (matched) {
-      return res.status(200).json({ signIn: true, email: result.rows[0].email })
-    }
-    else {
-      //if pw doesn't match, sign-in is unsccessful
-      return res.status(401).json({ signIn: false, message: 'Incorrect email or password.' })
-    }
-  } catch (err) {
-    console.error('Error in userController.verifyUser:', err);
-    return res.status(500).json({ message: 'Internal Server Error' });
-  }
+    // Passport exposes a login() function on req (also known as req.logIn()) that can be used to establish a login session
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error('Error in userController.verifyUser during login:', err);
+        return next(err);
+      }
+      // Successful authentication, send the response
+      return res.status(200).json({ signIn: true, email: user.email });
+    });
+  })(req, res, next);
 };
 
 //view all dogs associated with the user
