@@ -9,22 +9,27 @@ export default function CreateDogProfile() {
 
   const handleDogNameChange = (e) => {
     setDogName(e.target.value);
+    console.log('line 12')
   };
 
   const handleNumChange = (e) => {
     setSelectedNum(e.target.value);
+    console.log('line 17')
   };
 
   const handleYesNoChange = (e) => {
     setYesNoChoice(e.target.value);
+    console.log('line 22')
   };
 
   const handleActivityLevelChange = (e) => {
     setActivityLevel(e.target.value);
+    console.log('line 27')
   };
 
   const handleDogBreedChange = (e) => {
     setDogBreed(e.target.value);
+    console.log('line 32')
   };
 
   const handleSubmit = async (e) => {

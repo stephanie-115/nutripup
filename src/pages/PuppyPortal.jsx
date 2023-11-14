@@ -5,8 +5,8 @@ export default function PuppyPortal() {
   const navigate = useNavigate();
     return (
       <>
-        <button onClick={() => navigate('/puppy-portal/add')}>Add New Pup</button>
-        <button onClick={() => navigate('/puppy-portal/view')}>View Your Pups</button>
+        <button onClick={() => navigate('/puppy-portal/add')} className="signup-button">Add New Pup</button>
+        <button onClick={() => navigate('/puppy-portal/view')} className="signup-button">View Your Pups</button>
       </>
     )
 }
