@@ -1,5 +1,6 @@
 const auth = {
   isAuthenticated(req, res, next) {
+    console.log("User authenticated:", req.isAuthenticated());
     if (req.isAuthenticated()) return next();
     // If not authenticated, send back to login page
     return res.redirect('/sign-in');

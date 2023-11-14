@@ -43,7 +43,7 @@ export default function CreateDogProfile() {
     }
       console.log('dogDetails:', dogDetails)
     try {
-      const response = await fetch('/dog/add', {
+      const response = await fetch('http://localhost:8080/dog/add', {
         method: 'POST',
         body: JSON.stringify(dogDetails),
         headers: {

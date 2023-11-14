@@ -38,13 +38,6 @@ app.get('/api/auth/check', (req, res) => {
   }
 });
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { httpOnly: true, secure: false }
-}));
-
 // For development environment
 // if (process.env.NODE_ENV !== 'production') {
   // const webpack = require('webpack');
