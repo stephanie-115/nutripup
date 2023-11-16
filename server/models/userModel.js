@@ -26,4 +26,5 @@ userModel.getUserById = async (id) => {
   }
 };
 
-module.exports = dogModel, userModel;
+module.exports = { dogModel, userModel };
+

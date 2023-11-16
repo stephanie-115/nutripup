@@ -2,48 +2,53 @@ import React, { useState } from "react";
 
 export default function CreateDogProfile() {
   const [dogName, setDogName] = useState("");
-  const [selectedNum, setSelectedNum] = useState("0");
+  const [selectedNum, setSelectedNum] = useState(0);
   const [yesNoChoice, setYesNoChoice] = useState("");
   const [activityLevel, setActivityLevel] = useState('');
   const [dogBreed, setDogBreed] = useState('');
+  const [allergies, setAllergies] = useState('');
 
   const handleDogNameChange = (e) => {
     setDogName(e.target.value);
-    console.log('line 12')
   };
 
   const handleNumChange = (e) => {
     setSelectedNum(e.target.value);
-    console.log('line 17')
   };
 
   const handleYesNoChange = (e) => {
     setYesNoChoice(e.target.value);
-    console.log('line 22')
   };
 
   const handleActivityLevelChange = (e) => {
     setActivityLevel(e.target.value);
-    console.log('line 27')
   };
 
   const handleDogBreedChange = (e) => {
     setDogBreed(e.target.value);
-    console.log('line 32')
   };
+
+  const handleAllergyChange = (e) => {
+    setAllergies(e.target.value);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!dogName || !selectedNum || !activityLevel || !dogBreed) {
+      console.error('Please fill in all fields');
+      return;
+  }
     const dogDetails = {
       dogName,
-      idealWeight: selectedNum,
+      ideal_weight: parseInt(selectedNum, 10),    
       neutered: yesNoChoice,
       activityLevel,
-      dogBreed
+      dogBreed,
+      allergies
     }
       console.log('dogDetails:', dogDetails)
     try {
-      const response = await fetch('http://localhost:8080/dog/add', {
+      const response = await fetch('/dog/add', {
         method: 'POST',
         body: JSON.stringify(dogDetails),
         headers: {
@@ -131,6 +136,18 @@ export default function CreateDogProfile() {
               placeholder="Potato"
               value={dogBreed}
               onChange={handleDogBreedChange}
+            />
+        </div>
+        <div className="form-field">
+            <label htmlFor="breedInput">What food is your pup allergic to? </label>
+            <input
+              id="allergies"
+              className="input"
+              name="allergies"
+              type="text"
+              placeholder="Leave blank if none"
+              value={dogBreed}
+              onChange={handleAllergyChange}
             />
         </div>
         <div className="form-field">

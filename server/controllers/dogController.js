@@ -4,24 +4,34 @@ const dogController = {};
 
 // Helper functions to determine total calories, protein, fat, carbs
 function calculateCalories(dogDetails) {
+  console.log('ideal dog weight:', dogDetails.ideal_weight)
+  
   const toKG = () => dogDetails.ideal_weight * 2.2;
+  console.log(`toKG:`, toKG());
 
   const energyReq = () => (70 * toKG()) ** 0.75;
+  console.log(`energyReq:`, energyReq());
 
   const reproductiveStatus = () => {
     if (dogDetails.neutered === "Yes") return 1.6;
     else return 1.8;
+    console.log(`reproductiveStatus:`, reproductiveStatus());
   };
 
   const activity = () => {
-    if (dogDetails.activity_level === "Inactive") return 1;
-    if (dogDetails.activity_level === "Somewhat Active") return 1.2;
-    if (dogDetails.activity_level === "Active") return 1.4;
-    if (dogDetails.activity_level === "Very Active") return 1.6;
+    switch (dogDetails.activity_level) {
+      case "Inactive": return 1;
+      case "Somewhat Active": return 1.2;
+      case "Active": return 1.4;
+      case "Very Active": return 1.6;
+      default: return 1;
+    }
   };
+  console.log(`activity:`, activity());
 
-  return Math.round(energyReq() * reproductiveStatus() * activity());
-}
+  const calculatedCalories = Math.round(energyReq() * reproductiveStatus() * activity());
+  console.log(`Calculated Calories:`, calculatedCalories);
+  return calculatedCalories;}
 
 function calculateProtein(calories) {
   return Math.round((calories * 0.6) / 4);
@@ -37,7 +47,8 @@ function calculateCarbs(calories) {
 
 //adding dog to the database:
 dogController.addDog = async (req, res, next) => {
-  const { dogName, dogBreed, idealWeight, activityLevel, neutered, allergies } =
+  console.log("Received dog details:", req.body);
+  const { dogName, dogBreed, ideal_weight, activityLevel, neutered, allergies } =
     req.body;
   const userId = req.user.id;
 
@@ -56,7 +67,7 @@ dogController.addDog = async (req, res, next) => {
     userId,
     dogName,
     dogBreed,
-    idealWeight,
+    ideal_weight,
     activityLevel,
     neutered,
     allergies,
@@ -67,6 +78,7 @@ dogController.addDog = async (req, res, next) => {
   ];
 
   try {
+    console.log("SQL Query Values:", values);
     const result = await db.query(sqlCommand, values);
     res.status(201).json({ 
       message: "Dog profile created successfully.",

@@ -52,6 +52,7 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include'
       });
       //check if http response isn't successful
       if (!response.ok) {

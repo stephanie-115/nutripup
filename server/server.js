@@ -18,11 +18,19 @@ const corsOptions = {
   origin: 'http://localhost:9000', 
   credentials: true, // to support session cookies
 };
+
 app.use(cors(corsOptions));
 
 // Middleware to parse JSON & URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Session Data:', req.session);
+  console.log('Authenticated:', req.isAuthenticated());
+  next();
+});
 
 // API routes
 app.use('/user', userRouter);

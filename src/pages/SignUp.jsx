@@ -67,6 +67,7 @@ function SignUp() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include'
       });
       //check if http response isn't successful
       if (!response.ok) {

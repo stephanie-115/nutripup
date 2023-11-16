@@ -14,7 +14,7 @@ const configurePassport = (app) => {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Use 'true' in production
+        secure: process.env.NODE_ENV === false, // Use 'true' in production
         sameSite: 'lax'
     }
   }));
@@ -48,19 +48,21 @@ const configurePassport = (app) => {
   ));
 
   passport.serializeUser((user, done) => {
-    console.log("serializeUser called");
-      done(null, user.id);
-    });
-    
-    passport.deserializeUser(async (id, done) => {
-      console.log("deserializeUser called"); 
-        try {
-          const user = await userModel.getUserById(id);
-          done(null, user);
-        } catch (err) {
-          done(err);
-        }
-      });
+    console.log("serializeUser called, user:", user);
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser(async (id, done) => {
+    console.log("deserializeUser called, ID:", id);
+    try {
+      const user = await userModel.getUserById(id);
+      console.log("Deserialized user:", user);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+  
 };
 
 module.exports = configurePassport;
