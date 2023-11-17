@@ -11,6 +11,7 @@ export default function CreateDogProfile() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [newDogId, setNewDogId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [modalDogName, setModalDogName] = useState("");
 
   const handleDogNameChange = (e) => {
     setDogName(e.target.value);
@@ -62,12 +63,13 @@ export default function CreateDogProfile() {
       });
       //check if http response isn't successful
       if (!response.ok) {
-        throw new Error(`HTTP error1 status: ${response.status}`);
+        throw new Error(`HTTP error status: ${response.status}`);
       }
 
       const responseData = await response.json();
 
       if (responseData && responseData.newDog) {
+        setModalDogName(dogName);
         setNewDogId(responseData.newDog.id);
         setShowSuccess(true);
         setDogName("");
@@ -87,7 +89,7 @@ export default function CreateDogProfile() {
   const viewProfile = (dogId) => {
     navigate(`/dogs/${dogId}`);
   };
-
+//modal logic
   function SuccessModal({ isOpen, onClose, dogName, viewProfile }) {
     if (!isOpen) return null;
   
@@ -135,7 +137,7 @@ export default function CreateDogProfile() {
         </div>
         <div className="form-field">
           <label htmlFor="yesNoSelect">
-            Has your pup been neutered or spade?{" "}
+            Has your pup been fixed?{" "}
           </label>
           <select
             name="yesNoSelect"
@@ -198,7 +200,7 @@ export default function CreateDogProfile() {
       <SuccessModal
       isOpen={showModal}
       onClose={() => setShowModal(false)}
-      dogName={dogName}
+      dogName={modalDogName}
       viewProfile={() => viewProfile(newDogId)}
     />
     </>

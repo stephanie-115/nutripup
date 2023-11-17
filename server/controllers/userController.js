@@ -12,12 +12,10 @@ userController.createUser = async (req, res, next) => {
 
   //check if name, email and password are provided
   if (!name || !email || !password) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "Error in userController.createUser: not given all necessary inputs.",
-      });
+    return res.status(400).json({
+      message:
+        "Error in userController.createUser: not given all necessary inputs.",
+    });
   }
 
   try {
@@ -75,7 +73,7 @@ userController.verifyUser = (req, res, next) => {
       // Log session info
       console.log("User logged in:", req.user);
       console.log("Session info:", req.session);
-      
+
       // Successful authentication, send the response
       return res.status(200).json({ signIn: true, email: user.email });
     });
@@ -84,27 +82,17 @@ userController.verifyUser = (req, res, next) => {
 
 //view all dogs associated with the user
 userController.viewAllDogs = async (req, res, next) => {
-  const { id } = req.user.id;
-
-  //ownership check:
-  if (req.user && req.user.id !== parseInt(id)) {
-    return res
-      .status(403)
-      .json({
-        message:
-          "Unauthorized: You do not have permission to access this data.",
-      });
-  }
+  const userId = req.user.id;
 
   try {
     const sqlCommand = `
-    SELECT * FROM dogs WHERE user_id = $1;
+      SELECT * FROM dogs WHERE user_id = $1;
     `;
-    const values = [id];
+    const values = [userId];
     const result = await db.query(sqlCommand, values);
 
     if (result.rows.length > 0) {
-      return res.status(200).json(result.rows);
+      return res.status(200).json({ dogs: result.rows });
     } else {
       return res.status(404).json({ message: "No dogs found for this user." });
     }
@@ -113,6 +101,8 @@ userController.viewAllDogs = async (req, res, next) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+//sign out
 userController.signOut = (req, res, next) => {
   req.logout(function (err) {
     if (err) {
