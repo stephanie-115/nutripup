@@ -1,7 +1,10 @@
 import React from "react";
 
 export default function DogCard({ dog, onEdit, onDelete }) {
-  
+  const handleEditClick = () => {
+    console.log("Edit clicked for dog:", dog);
+    onEdit();
+  };
   return(
     <div className="dog-card">
       <h3>{dog.dog_name}</h3>
@@ -15,7 +18,7 @@ export default function DogCard({ dog, onEdit, onDelete }) {
       <p>Total Daily Fat: {dog.fat}</p>
       <p>Total Daily Carbs: {dog.carbs}</p>
 
-      <button onClick={onEdit} className="edit-button">Edit</button>
+      <button onClick={handleEditClick} className="edit-button">Edit</button>
       <button onClick={() => onDelete(dog.id)} className="delete-button">Delete</button>
     </div>
   )

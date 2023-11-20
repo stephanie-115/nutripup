@@ -97,34 +97,49 @@ function getUpdateStringAndValues(dogDetails, reqBody, userId, dogId) {
   const values = [dogId, userId];
   let valCount = 3;
 
+  // Add non-recalculated fields to the updates array
   for (const [key, value] of Object.entries(reqBody)) {
-    if (dogDetails.hasOwnProperty(key)) {
+    if (dogDetails.hasOwnProperty(key) && !['total_calories', 'protein', 'fat', 'carbs'].includes(key)) {
       updates.push(`${key} = $${valCount}`);
       values.push(value);
       valCount += 1;
     }
   }
 
-  if (updates.length) {
-    const requiresRecalculation = ["ideal_weight", "activity_level", "neutered"].some(attr => reqBody[attr] !== undefined);
-    
-    if (requiresRecalculation) {
-      const updatedDogData = {
-        ...dogDetails,
-        ...reqBody,
-      };
-      
-      const calories = calculateCalories(updatedDogData);
-      const protein = calculateProtein(calories);
-      const fat = calculateFat(calories);
-      const carbs = calculateCarbs(calories);
-      
-      updates.push(`total_calories = ${calories}`, `protein = ${protein}`, `fat = ${fat}`, `carbs = ${carbs}`);
-    }
+  const requiresRecalculation = ["ideal_weight", "activity_level", "neutered"].some(attr => reqBody[attr] !== undefined);
+
+  if (requiresRecalculation) {
+    const updatedDogData = {
+      ...dogDetails,
+      ...reqBody,
+    };
+
+    const calories = calculateCalories(updatedDogData);
+    const protein = calculateProtein(calories);
+    const fat = calculateFat(calories);
+    const carbs = calculateCarbs(calories);
+
+    // Update or add nutritional values
+    const nutritionalUpdates = {
+      'total_calories': calories,
+      'protein': protein,
+      'fat': fat,
+      'carbs': carbs
+    };
+
+    Object.entries(nutritionalUpdates).forEach(([key, value]) => {
+      const existingIndex = updates.findIndex(update => update.startsWith(`${key} =`));
+      if (existingIndex !== -1) {
+        updates[existingIndex] = `${key} = ${value}`;
+      } else {
+        updates.push(`${key} = ${value}`);
+      }
+    });
   }
 
   return { updateString: updates.join(', '), values };
 }
+
 
 // Updating dog in the database
 dogController.updateDog = async (req, res, next) => {
@@ -159,6 +174,31 @@ dogController.updateDog = async (req, res, next) => {
   }
 };
 
+//display specific dog profile
+dogController.displayProfile = async (req, res, next) => {
+  const userId = req.user.id;
+  const { dogId } = req.params;
+
+  const sqlCommand = `
+    SELECT * FROM dogs 
+    WHERE user_id = $1 AND id = $2;
+  `
+
+  const values = [userId, dogId];
+
+  try {
+    const result = await db.query(sqlCommand, values);
+
+    if (result.rows.length > 0) {
+      return res.status(200).json({ dog: result.rows });
+    } else {
+      return res.status(404).json({ message: "No dogs found for this id." });
+    }
+  } catch (err) {
+    console.error("Error in dogController.displayProfile:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
 
 //deleting dog from the database:
 dogController.deleteDog = async (req, res, next) => {

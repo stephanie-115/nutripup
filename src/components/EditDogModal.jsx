@@ -18,7 +18,8 @@ export default function EditDogModal({ dog, onClose, onSave }) {
   };
 
   return (
-    <div className="modal">
+    <div className="modal-backdrop">
+      <div className="modal">
       <input
         name="dog_name"
         value={editedDog.dog_name}
@@ -51,7 +52,8 @@ export default function EditDogModal({ dog, onClose, onSave }) {
       />
 
       <button onClick={handleSave}>Save Changes</button>
-      <button onClick={onClose}>Cancel</button>
+      <button onClick={onClose} className="close-button">Cancel</button>
+      </div>
     </div>
   );
 }

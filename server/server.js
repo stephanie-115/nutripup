@@ -26,9 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  console.log('Session ID:', req.sessionID);
-  console.log('Session Data:', req.session);
-  console.log('Authenticated:', req.isAuthenticated());
+  // console.log('Session ID:', req.sessionID);
+  // console.log('Session Data:', req.session);
+  // console.log('Authenticated:', req.isAuthenticated());
   next();
 });
 

@@ -70,10 +70,11 @@ export default function ViewPups() {
   };
 
   const onEditClick = (dog) => {
+    console.log("Editing dog:", dog);
     setEditingDog(dog);
     setShowEditModal(true);
   };
-
+  
   return(
     <div>
       <h1>Puppy Portal</h1>

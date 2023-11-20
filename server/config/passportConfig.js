@@ -48,12 +48,12 @@ const configurePassport = (app) => {
   ));
 
   passport.serializeUser((user, done) => {
-    console.log("serializeUser called, user:", user);
+    //console.log("serializeUser called, user:", user);
     done(null, user.id);
   });
   
   passport.deserializeUser(async (id, done) => {
-    console.log("deserializeUser called, ID:", id);
+    //console.log("deserializeUser called, ID:", id);
     try {
       const user = await userModel.getUserById(id);
       console.log("Deserialized user:", user);

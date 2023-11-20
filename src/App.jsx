@@ -23,8 +23,10 @@ export default function App() {
           <Route path="/puppy-portal/view" element={<ViewPups />} />
           <Route path="/sign-up" element={<SignUp />}/>
           <Route path="/sign-in" element={<SignIn />}/>
+          
         </Routes>
       </AuthProvider>
     </Router>
   );
 }
+//<Route path="/dogs/:dogId" element={<CreateDogProfile />} />
