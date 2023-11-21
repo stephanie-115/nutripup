@@ -8,11 +8,11 @@ import Typography from "@mui/material/Typography";
 
 const CustomQuestion = styled(Typography)({
   color: "darkcyan",
-  fontFamily: "fantasy",
+  fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana',
 });
 
 const CustomAnswer = styled(Typography)({
-  fontFamily: "fantasy",
+  fontFamily: 'Arial',
 });
 
 const Accordion = styled((props) => (
