@@ -190,7 +190,7 @@ dogController.displayProfile = async (req, res, next) => {
     const result = await db.query(sqlCommand, values);
 
     if (result.rows.length > 0) {
-      return res.status(200).json({ dog: result.rows });
+      return res.status(200).json({ dog: result.rows[0] });
     } else {
       return res.status(404).json({ message: "No dogs found for this id." });
     }

@@ -6,7 +6,8 @@ import Home from './pages/Home';
 import UserProfile from './pages/UserProfile';
 import PuppyPortal from './pages/PuppyPortal';
 import AddPup from './pages/AddNewPup';
-import ViewPups from './pages/ViewPups';
+import ViewAllPups from './pages/ViewAllPups';
+import FullDogCard from "./components/FullDogCard";
 import { SignUp } from './pages/SignUp';
 import SignIn from "./pages/SignIn";
 
@@ -20,7 +21,8 @@ export default function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/puppy-portal" element={<PuppyPortal />} />
           <Route path="/puppy-portal/add" element={<AddPup />} />
-          <Route path="/puppy-portal/view" element={<ViewPups />} />
+          <Route path="/puppy-portal/view" element={<ViewAllPups />} />
+          <Route path="/dog/view-profile/:dogId" element={<FullDogCard />} />
           <Route path="/sign-up" element={<SignUp />}/>
           <Route path="/sign-in" element={<SignIn />}/>
           

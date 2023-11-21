@@ -161,13 +161,6 @@ p {
   transform: scale(1.05);
 }
 
-.dogs-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: flex-start;
-  padding: 20px;
-}
 .close-button {
   position: absolute;
   top: 10px;
@@ -214,3 +207,50 @@ p {
   background-color: darkcyan;
   color: white;
 }
+.view-profile-button {
+  display: inline-block;
+  padding: 8px 15px;
+  margin: 10px;
+  border: none;
+  background-color: darkcyan;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.view-profile-button:hover {
+  background-color: rgb(224, 176, 239);
+}
+
+.intro-dog-card {
+  background-color: white;
+  border: 1px solid darkcyan;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: calc(100% - 20px); /* Full width on smaller screens */
+  box-sizing: border-box;
+}
+@media (min-width: 768px) {
+  .intro-dog-card {
+    width: calc(33.333% - 20px); /* Three cards per row on larger screens */
+  }
+}
+/* Styling for the dog name and breed text */
+.intro-dog-card h3,
+.intro-dog-card p {
+  color: darkcyan;
+  margin: 5px 0; /* Adjust as needed */
+}
+
+.dogs-intro-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+
