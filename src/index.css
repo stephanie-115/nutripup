@@ -233,6 +233,8 @@ p {
   text-align: center;
   width: calc(100% - 20px); /* Full width on smaller screens */
   box-sizing: border-box;
+  min-height: 200px;
+  overflow: auto;
 }
 @media (min-width: 768px) {
   .intro-dog-card {

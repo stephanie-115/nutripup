@@ -7,6 +7,7 @@ export default function ViewDogProfile() {
   const { dogId } = useParams();
   const [dog, setDog] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     const fetchDog = async () => {
@@ -60,7 +61,7 @@ export default function ViewDogProfile() {
 
   const handleRecipesFetched = (fetchedRecipes) => {
     setRecipes(fetchedRecipes);
-  }
+  };
   return (
     <div className="dog-card">
       <h3>{dog.dog_name}</h3>
@@ -77,15 +78,17 @@ export default function ViewDogProfile() {
       <button onClick={handleEditClick} className="edit-button">
         Edit
       </button>
-      <FetchRecipes onRecipesFetched={handleRecipesFetched} />
-      <div className="recipes">
-        <h2>Recipes</h2>
-        <ul>
-          {recipes.map((recipe) => (
-            <li key={recipe.id}>{recipe.name}</li>
-          ))}
-        </ul>
-      </div>
+      <FetchRecipes onRecipesFetched={setRecipes} />
+      {recipes.length > 0 && (
+        <div className="recipes">
+          <h2>Recipes</h2>
+          <ul>
+            {recipes.map((recipe) => (
+              <li key={recipe.id}>{recipe.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {showEditModal && (
         <EditDogModal
           dog={dog}
