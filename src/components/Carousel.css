@@ -1,0 +1,59 @@
+/* Carousel.css */
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex; 
+  white-space: nowrap;
+  transition: transform 1s ease; 
+}
+
+.carousel img {
+  flex-shrink: 0;
+  max-width: 100%;
+  height: auto;
+  animation: slide 12s linear infinite;
+}
+
+/* Animation to slide images */
+@keyframes slide {
+  0%, 10% {
+    transform: translateX(0px);
+  }
+  11%, 20% {
+    transform: translateX(-320px);
+  }
+  21%, 30% {
+    transform: translateX(-640px);
+  }
+  31%, 40% {
+    transform: translateX(-960px);
+  }
+  41%, 50% {
+    transform: translateX(-1280px);
+  }
+  51%, 60% {
+    transform: translateX(-1600px);
+  }
+  61%, 70% {
+    transform: translateX(-1920px);
+  }
+  71%, 80% {
+    transform: translateX(-2240px);
+  }
+  81%, 90% {
+    transform: translateX(-2560px);
+  }
+  91%, 100% {
+    transform: translateX(-2880px);
+  }
+}
+
+
+
+.carousel.active img {
+  animation: slide 12s linear infinite;
+}

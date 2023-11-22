@@ -17,15 +17,15 @@ export default function NavBar() {
     <nav className='nav-bar'>
       {isAuthenticated ? (
         <>
-          <button onClick={() => navigate('/')} className='signup-button'>Home</button>
-          <button onClick={() => navigate('/puppy-portal')} className="signup-button">Puppy Portal</button>
+          <button onClick={() => navigate('/')} className='navbar-button'>Home</button>
+          <button onClick={() => navigate('/puppy-portal')} className="navbar-button">Puppy Portal</button>
           <SignOutButton />
         </>
       ) : (
         <>
-          <button onClick={() => navigate('/')} className='signup-button'>Home</button>
-          <button onClick={() => navigate('/sign-in')} className="signup-button">Sign In</button>
-          <button onClick={() => navigate('/sign-up')} className="signup-button">Sign Up</button>
+          <button onClick={() => navigate('/')} className='navbar-button'>Home</button>
+          <button onClick={() => navigate('/sign-in')} className="navbar-button">Sign In</button>
+          <button onClick={() => navigate('/sign-up')} className="navbar-button">Sign Up</button>
         </>
       )}
     </nav>

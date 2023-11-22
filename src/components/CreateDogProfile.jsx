@@ -97,8 +97,8 @@ export default function CreateDogProfile() {
       <div className="modal-backdrop">
         <div className="modal">
           <p>Success! {dogName}'s profile has been added.</p>
-          <button onClick={() => viewProfile()} className="signup-button">View Profile</button>
-          <button onClick={() => onClose()} className="signup-button">Add Another Dog</button>
+          <button onClick={() => viewProfile()} className="navbar-button">View Profile</button>
+          <button onClick={() => onClose()} className="navbar-button">Add Another Dog</button>
         </div>
       </div>
     );
@@ -192,7 +192,7 @@ export default function CreateDogProfile() {
           />
         </div>
         <div className="form-field">
-          <button type="submit" className="signup-button">
+          <button type="submit" className="navbar-button">
             Unleash Your Pup's Profile
           </button>
         </div>
