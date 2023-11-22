@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function CreateDogProfile() {
   const [dogName, setDogName] = useState("");
   const [selectedNum, setSelectedNum] = useState(0);
-  const [yesNoChoice, setYesNoChoice] = useState("");
+  const [yesNoChoice, setYesNoChoice] = useState(null);
   const [activityLevel, setActivityLevel] = useState("");
   const [dogBreed, setDogBreed] = useState("");
   const [allergies, setAllergies] = useState("");
@@ -22,7 +22,7 @@ export default function CreateDogProfile() {
   };
 
   const handleYesNoChange = (e) => {
-    setYesNoChoice(e.target.value);
+    setYesNoChoice(e.target.value === "Yes");
   };
 
   const handleActivityLevelChange = (e) => {

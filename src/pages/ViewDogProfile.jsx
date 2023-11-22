@@ -68,7 +68,7 @@ export default function ViewDogProfile() {
       <p>Breed: {dog.dog_breed}</p>
       <p>Ideal Weight: {dog.ideal_weight}</p>
       <p>Activity Level: {dog.activity_level}</p>
-      <p>Fixed: {dog.neutered}</p>
+      <p>Fixed: {dog.neutered ? 'Yes' : 'No'}</p>
       <p>Allergies: {dog.allergies}</p>
       <p>Total Daily Recommended Calories: {dog.total_calories}</p>
       <p>Total Daily Protein: {dog.protein}</p>

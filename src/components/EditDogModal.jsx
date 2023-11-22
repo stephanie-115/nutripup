@@ -85,16 +85,18 @@ export default function EditDogModal({ dog, onClose, onSave }) {
         </FormControl>
 
         <FormControl fullWidth margin="dense">
-          <InputLabel id="neutered-label">Neutered</InputLabel>
+          <InputLabel id="neutered-label">Fixed</InputLabel>
           <Select
             labelId="neutered-label"
             name="neutered"
-            value={editedDog.neutered}
+            value={editedDog.neutered ? "true" : "false"}
             label="Neutered"
-            onChange={handleInputChange}
+            onChange={(e) => {
+              setEditedDog({ ...editedDog, neutered: e.target.value === "true" });
+            }}
           >
-            <MenuItem value={true}>Yes</MenuItem>
-            <MenuItem value={false}>No</MenuItem>
+            <MenuItem value='true'>Yes</MenuItem>
+            <MenuItem value='false'>No</MenuItem>
           </Select>
         </FormControl>
 
