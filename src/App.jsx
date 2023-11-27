@@ -13,6 +13,7 @@ import SignIn from "./pages/SignIn";
 
 export default function App() {
   return (
+    <div className="App">
     <Router>
       <AuthProvider>
         <NavBar />
@@ -28,6 +29,7 @@ export default function App() {
         </Routes>
       </AuthProvider>
     </Router>
+    </div>
   );
 }
 //<Route path="/dogs/:dogId" element={<CreateDogProfile />} />

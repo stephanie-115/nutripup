@@ -13,8 +13,10 @@ const handleViewRecipesClick = async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    console.log('successful response')
     const data = await response.json();
     props.onRecipesFetched(data.recipes);
+    console.log(data.recipes)
   } catch (error) {
       console.error('Error fetching recipes:', error);
   }

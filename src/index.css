@@ -1,3 +1,7 @@
+.App {
+  background-color: #f0f0f0dc;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -34,7 +38,7 @@ p {
   align-items: center;
   justify-content: center;
   font-family: "Arial", sans-serif;
-  color: silver;
+  color: black;
   padding-left: 200px;
   padding-right: 200px;
 }
@@ -272,10 +276,12 @@ p {
 }
 
 .puppy-container {
-  display: flex; 
-  justify-content: space-between;
-  align-items: center; 
-  padding: 20px; 
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pup-image {
@@ -283,14 +289,15 @@ p {
   max-height: 300px;
   width: auto; 
   height: auto;
-  object-fit: contain;
-  margin-right: 20px; 
+  object-fit: cover;
+  margin: auto;
 }
 
-.image-container {
+.slick-slider {
+  width: 80%;
+  margin: auto;
   display: flex;
-  gap: 20px; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   height: 300px;
 }
-
