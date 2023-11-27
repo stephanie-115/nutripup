@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default function PuppyPortal() {
+  const navigate = useNavigate();
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -35,8 +37,9 @@ export default function PuppyPortal() {
           ))}
         </Slider>
       </div>
+      <div className="button-container">
       <button
-        onClick={() => navigate("/puppy-portal/add")}
+        onClick={() => navigate("/puppy-portal/view-recipes")}
         className="navbar-button"
       >
         Add New Pup
@@ -47,6 +50,7 @@ export default function PuppyPortal() {
       >
         View Your Pups
       </button>
+      </div>
     </>
   );
 }

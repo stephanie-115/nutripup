@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import EditDogModal from "../components/EditDogModal";
-import FetchRecipes from "../components/FetchRecipes";
 
 export default function ViewDogProfile() {
+  const navigate = useNavigate();
   const { dogId } = useParams();
   const [dog, setDog] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -59,9 +60,9 @@ export default function ViewDogProfile() {
     setShowEditModal(true);
   };
 
-  const handleRecipesFetched = (fetchedRecipes) => {
-    setRecipes(fetchedRecipes);
-  };
+  // const handleRecipesFetched = (fetchedRecipes) => {
+  //   setRecipes(fetchedRecipes);
+  // };
   return (
     <div className="dog-card">
       <h3>{dog.dog_name}</h3>
@@ -78,17 +79,7 @@ export default function ViewDogProfile() {
       <button onClick={handleEditClick} className="edit-button">
         Edit
       </button>
-      <FetchRecipes onRecipesFetched={setRecipes} />
-      {recipes.length > 0 && (
-        <div className="recipes">
-          <h2>Recipes</h2>
-          <ul>
-            {recipes.map((recipe) => (
-              <li key={recipe.id}>{recipe.name}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+     <button onClick={() => navigate(`/dog/view-recipes/${dogId}`)}className="edit-button">View Recipes</button>
       {showEditModal && (
         <EditDogModal
           dog={dog}
