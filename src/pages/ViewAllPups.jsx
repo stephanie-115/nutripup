@@ -47,14 +47,19 @@ export default function ViewAllPups() {
     <div>
       <h1>Puppy Portal</h1>
       <div className="dogs-intro-container">
-        {dogs.map(dog => (
-          <IntroDogCard 
-            key={dog.id} 
-            dog={dog}
-            onDelete={handleDelete}
+        {dogs.length > 0 ? (
+          dogs.map(dog => (
+            <IntroDogCard 
+              key={dog.id} 
+              dog={dog}
+              onDelete={handleDelete}
             />
-        ))}
+          ))
+        ) : (
+          <p>You don't have any pups yet! 🥺</p>
+        )}
       </div>
     </div>
   )
+  
 }

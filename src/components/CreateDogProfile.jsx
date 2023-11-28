@@ -87,7 +87,7 @@ export default function CreateDogProfile() {
   const navigate = useNavigate();
 
   const viewProfile = (dogId) => {
-    navigate(`/dogs/${dogId}`);
+    navigate(`/dog/view-profile/${dogId}`);
   };
 //modal logic
   function SuccessModal({ isOpen, onClose, dogName, viewProfile }) {
