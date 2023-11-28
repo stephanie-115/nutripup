@@ -39,7 +39,7 @@ export default function PuppyPortal() {
       </div>
       <div className="button-container">
       <button
-        onClick={() => navigate("/puppy-portal/view-recipes")}
+        onClick={() => navigate("/puppy-portal/add")}
         className="navbar-button"
       >
         Add New Pup
