@@ -22,12 +22,16 @@ export default function ViewRecipes(props) {
         return response.json();
       })
       .then((data) => {
+        console.log("API Response:", data);
         setRecipes(data.recipes);
       })
       .catch((error) => {
         console.error("Error fetching recipes:", error);
       });
   }, [dogId]);
+
+  console.log("Recipes State:", recipes);
+  console.log('dogId:', dogId)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -43,7 +47,7 @@ export default function ViewRecipes(props) {
       >
         {recipes.length > 0 ? (
           recipes.map((recipe, index) => (
-            <Tab key={index} label={recipe.name} />
+            <Tab key={index} label={recipe.recipe_title} />
           ))
         ) : (
           <Tab label="No Recipes Available" disabled />
@@ -54,9 +58,9 @@ export default function ViewRecipes(props) {
           <div role="tabpanel" hidden={value !== index} key={index}>
             {value === index && (
               <Box p={3}>
-                <h2>{recipe.name}</h2>
+                <h2>{recipe.recipe_title}</h2>
                 <Typography variant="body1">
-                  Description: {recipe.description}
+                  Description: {recipe.recipe_content}
                 </Typography>
               </Box>
             )}

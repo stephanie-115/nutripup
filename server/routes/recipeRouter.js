@@ -11,12 +11,14 @@ router.get('/create/:dogId', recipeController.getDogRecipe);
 router.post('/save/:dogId', auth.isAuthenticated, recipeController.saveRecipe);
 
 //display all recipes
-router.get('/display-all/:dogId', auth.isAuthenticated, async (req, res) => {
-    const dogId = parseInt(req.params.dogId, 10); // Convert to integer
-    if (isNaN(dogId)) {
-        return res.status(400).send("Invalid dog ID");
-    }
-});
+router.get('/display-all/:dogId', auth.isAuthenticated, recipeController.displayAllRecipes);
+
+// router.get('/display-all/:dogId', auth.isAuthenticated, async (req, res) => {
+//     const dogId = parseInt(req.params.dogId, 10); // Convert to integer
+//     if (isNaN(dogId)) {
+//         return res.status(400).send("Invalid dog ID");
+//     }
+// });
 
 //edit saved recipe
 router.put('/edit/:dogId/:recipeId', auth.isAuthenticated, recipeController.editRecipe);

@@ -5,7 +5,7 @@ export default function IntroDogCard({ dog, onDelete }) {
   return (
     <div className="intro-dog-card">
       <h3>{dog.dog_name}</h3>
-      <p>Breed: {dog.dog_breed}</p>
+      <p>{dog.dog_breed}</p>
       <Link to={`/dog/view-profile/${dog.id}`} className="view-profile-button">View Full Profile</Link>
       <button onClick={() => onDelete(dog.id)} className="delete-button">Delete</button>
     </div>

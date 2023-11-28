@@ -94,24 +94,13 @@ recipeController.displayAllRecipes = async (req, res) => {
   const { dogId } = req.params;
   const userId = req.user.id;
 
-  //check if dog belongs to user:
-  const ownershipCheckSql = `SELECT user_id FROM dogs WHERE id = $1`;
-  const dog = await db.query(ownershipCheckSql, [dogId]);
-
-  if (!dog.rows[0] || dog.rows[0].user_id !== userId) {
-    return res
-      .status(403)
-      .json({
-        message: "You do not have permission to view recipes for this dog.",
-      });
-  }
-
   try {
     const sqlCommand = `
     SELECT * from recipes WHERE dog_id = $1
     `;
     const values = [dogId];
     const result = await db.query(sqlCommand, values);
+    console.log("SQL Query Result:", result.rows);
 
     if (result.rows.length > 0) res.json({ recipes: result.rows })
     else res.status(404).json({ message: "No recipes found for this pup." });

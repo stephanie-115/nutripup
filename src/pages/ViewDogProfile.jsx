@@ -64,29 +64,63 @@ export default function ViewDogProfile() {
   //   setRecipes(fetchedRecipes);
   // };
   return (
-    <div className="dog-card">
-      <h3>{dog.dog_name}</h3>
-      <p>Breed: {dog.dog_breed}</p>
-      <p>Ideal Weight: {dog.ideal_weight}</p>
-      <p>Activity Level: {dog.activity_level}</p>
-      <p>Fixed: {dog.neutered ? 'Yes' : 'No'}</p>
-      <p>Allergies: {dog.allergies}</p>
-      <p>Total Daily Recommended Calories: {dog.total_calories}</p>
-      <p>Total Daily Protein: {dog.protein}</p>
-      <p>Total Daily Fat: {dog.fat}</p>
-      <p>Total Daily Carbs: {dog.carbs}</p>
+    <div className="parent-container">
+      <div className="dog-card">
+        <h3>{dog.dog_name}</h3>
+        <p>
+          <span className="dog-label">Breed:</span>{" "}
+          <span className="dog-value">{dog.dog_breed}</span>
+        </p>
+        <p>
+          <span className="dog-label">Ideal Weight:</span>{" "}
+          <span className="dog-value">{dog.ideal_weight}</span>
+        </p>
+        <p>
+          <span className="dog-label">Activity Level:</span>{" "}
+          <span className="dog-value">{dog.activity_level}</span>
+        </p>
+        <p>
+          <span className="dog-label">Fixed:</span>{" "}
+          <span className="dog-value">{dog.neutered ? "Yes" : "No"}</span>
+        </p>
+        <p>
+          <span className="dog-label">Allergies:</span>{" "}
+          <span className="dog-value">{dog.allergies}</span>
+        </p>
+        <p>
+          <span className="dog-label">Total Daily Recommended Calories:</span>{" "}
+          <span className="dog-value">{dog.total_calories}</span>
+        </p>
+        <p>
+          <span className="dog-label">Total Daily Protein:</span>{" "}
+          <span className="dog-value">{dog.protein}</span>
+        </p>
+        <p>
+          <span className="dog-label">Total Daily Fat:</span>{" "}
+          <span className="dog-value">{dog.fat}</span>
+        </p>
+        <p>
+          <span className="dog-label">Total Daily Carbs:</span>{" "}
+          <span className="dog-value">{dog.carbs}</span>
+        </p>
 
-      <button onClick={handleEditClick} className="edit-button">
-        Edit
-      </button>
-     <button onClick={() => navigate(`/dog/view-recipes/${dogId}`)}className="edit-button">View Recipes</button>
-      {showEditModal && (
-        <EditDogModal
-          dog={dog}
-          onClose={() => setShowEditModal(false)}
-          onSave={handleEdit}
-        />
-      )}
+        <button onClick={handleEditClick} className="edit-button">
+          Edit
+        </button>
+        <button
+          onClick={() => navigate(`/dog/view-recipes/${dogId}`)}
+          className="edit-button"
+        >
+          View Recipes
+        </button>
+        {showEditModal && (
+          <EditDogModal
+            dog={dog}
+            onClose={() => setShowEditModal(false)}
+            onSave={handleEdit}
+          />
+        )}
+      </div>
     </div>
   );
 }
