@@ -1,7 +1,7 @@
 const db = require("../database/dbConfig");
 const recipeService = require("../services/recipeService");
 const { getCompletion } = require("../services/openaiService");
-const dogModel = require('../models/userModel')
+const { getDogByIdAndUserId } = require('../models/userModel')
 
 const recipeController = {};
 
@@ -11,7 +11,7 @@ recipeController.getDogRecipe = async (req, res) => {
     const userId = req.user.id;
     const dogId = req.params.dogId;
 
-    const dogDetails = await dogModel.getDogByIdAndUserId(dogId, userId);
+    const dogDetails = await getDogByIdAndUserId(dogId, userId);
 
     if (!dogDetails) return res.status(404).json({ error: "Dog not found" });
 
@@ -102,8 +102,7 @@ recipeController.displayAllRecipes = async (req, res) => {
     const result = await db.query(sqlCommand, values);
     console.log("SQL Query Result:", result.rows);
 
-    if (result.rows.length > 0) res.json({ recipes: result.rows })
-    else res.status(404).json({ message: "No recipes found for this pup." });
+    res.json({ recipes: result.rows });
   } catch (err) {
     console.error("Error in recipeController.displayAllRecipes", err);
     res.status(500).send("Error retrieving recipes.");
