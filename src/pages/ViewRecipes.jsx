@@ -8,7 +8,10 @@ import CreateRecipe from "../components/CreateRecipe";
 
 export default function ViewRecipes(props) {
   const [value, setValue] = useState(0);
-  const [newRecipe, setNewRecipe] = useState(null);
+  const [recipeTitle, setRecipeTitle] = useState("");
+  const [ingredients, setIngredients] = useState("");
+  const [recipeContent, setRecipeContent] = useState("");
+  const [nutrition, setNutrition] = useState("");
   const [recipes, setRecipes] = useState([]);
   const { dogId } = useParams();
 
@@ -29,26 +32,25 @@ export default function ViewRecipes(props) {
       .then((data) => {
         console.log("API Response:", data);
         setRecipes(data.recipes);
+        console.log(recipes);
       })
       .catch((error) => {
         console.error("Error fetching recipes:", error);
       });
   }, [dogId]);
 
-  console.log("Recipes State:", recipes);
-
   const handleNewRecipe = (fetchedRecipe) => {
-    const formattedRecipe = {
-      recipe_title: fetchedRecipe.title,
-      ingredients: fetchedRecipe.ingredients,
-      recipe_content: fetchedRecipe.recipe,
-      nutrition: fetchedRecipe.nutrition,
-    };
-    setNewRecipe(formattedRecipe);
+    setRecipeTitle(fetchedRecipe.title);
+    setIngredients(fetchedRecipe.ingredients);
+    setRecipeContent(fetchedRecipe.recipe);
+    setNutrition(fetchedRecipe.nutrition);
   };
 
   const handleDiscardRecipe = () => {
-    setNewRecipe(null);
+    setRecipeTitle("");
+    setIngredients("");
+    setRecipeContent("");
+    setNutrition("");
   };
 
   const handleChange = (event, newValue) => {
@@ -88,12 +90,9 @@ export default function ViewRecipes(props) {
       return (
         <div>
           {formattedList.map((item, index) => (
-            <p
-              key={index}
-              className="nutrition"
-            >
+            <p key={index} className="nutrition">
               {item}
-            </p> 
+            </p>
           ))}
         </div>
       );
@@ -111,30 +110,34 @@ export default function ViewRecipes(props) {
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
       <CreateRecipe onNewRecipe={handleNewRecipe} />
-      {newRecipe && (
+      {recipeTitle && (
         <Box p={3} mt={2} mb={2} bgcolor={"#f0f0f0"}>
-          <h2>{newRecipe.recipe_title}</h2>
+          <h2>{recipeTitle}</h2>
           <Typography variant="subtitle1">Ingredients:</Typography>
           <RecipeList
-            listData={newRecipe.ingredients}
-            delimiter="-"
+            listData={ingredients}
+            delimiter={/-/} // Use a regex to split by the dash
             listType="disc"
           />
           <Typography variant="subtitle1">Instructions:</Typography>
           <RecipeList
-            listData={newRecipe.recipe_content}
-            delimiter={/\d+\.\s/}
+            listData={recipeContent}
+            delimiter={/\d+\.\s/} // Assuming instructions are numbered
             listType="decimal"
           />
-          <Typography variant="subtitle1">Nutrition Values per Serving:</Typography>
+          <Typography variant="subtitle1">
+            Nutrition Values per Serving:
+          </Typography>
           <RecipeList
-            listData={newRecipe.nutrition}
-            delimiter="nutrition"
-            listType="disc"
+            listData={nutrition}
+            delimiter="\n" // Each nutrition fact is on a new line
+            listType="none"
           />
           <button className="edit-button">Save</button>
           <button className="edit-button">Edit</button>
-          <button className="delete-button">Discard</button>
+          <button className="delete-button" onClick={handleDiscardRecipe}>
+            Discard
+          </button>
         </Box>
       )}
       <Tabs
@@ -170,8 +173,8 @@ export default function ViewRecipes(props) {
                 </Typography>
                 <RecipeList
                   listData={recipe.nutrition}
-                  delimiter="nutrition"
-                  listType="disc"
+                  delimiter="\n"
+                  listType="none"
                 />
               </Box>
             )}

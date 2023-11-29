@@ -21,6 +21,7 @@ export default function CreateRecipe({ onNewRecipe }) {
           }
 
           const data = await response.json();
+          console.log('Data:', data)
           onNewRecipe(data.data)
         } catch (error) {
             console.error("Error in CreateRecipe component", error)
