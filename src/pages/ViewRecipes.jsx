@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CreateRecipe from "../components/CreateRecipe";
+import SaveRecipe from "../components/SaveRecipe";
 
 export default function ViewRecipes(props) {
   const [value, setValue] = useState(0);
@@ -133,7 +134,12 @@ export default function ViewRecipes(props) {
             delimiter="\n" // Each nutrition fact is on a new line
             listType="none"
           />
-          <button className="edit-button">Save</button>
+          <SaveRecipe 
+          recipeTitle={recipeTitle}
+          ingredients={ingredients}
+          recipeContent={recipeContent}
+          nutrition={nutrition}
+          />
           <button className="edit-button">Edit</button>
           <button className="delete-button" onClick={handleDiscardRecipe}>
             Discard
