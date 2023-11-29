@@ -19,8 +19,6 @@ export default function SaveRecipe({
         nutrition: nutrition,
       };
 
-      console.log('Sending Data:', recipeData)
-
       const response = await fetch(
         `http://localhost:8080/recipe/save/${dogId}`,
         {
@@ -37,7 +35,8 @@ export default function SaveRecipe({
         throw new Error(`HTTP error status: ${response.status}`);
       }
       const responseData = await response.json();
-      console.log('Response Data:', responseData);
+    // Refresh the page on successful save
+    window.location.reload();
     } catch (error) {
       console.error("Error in SaveRecipe Component,", error);
     }
