@@ -11,7 +11,7 @@
 }
 h1 {
   font-size: 80px;
-  color: aquamarine;
+  color: darkcyan;
   margin: 0;
   padding-bottom: 50px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -184,7 +184,7 @@ p {
 }
 
 .edit-button:hover {
-  background-color: aquamarine;
+  background-color: darkcyan;
   transform: scale(1.05);
 }
 
@@ -231,7 +231,7 @@ p {
 }
 
 .modal .button-primary:hover {
-  background-color: aquamarine;
+  background-color: darkcyan;
   transform: scale(1.05);
 }
 
@@ -344,5 +344,11 @@ p {
 .dog-value {
   font-weight: bolder;
   color: rgb(224, 176, 239);
+}
+
+.nutrition {
+  text-align: left !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.5em !important;
 }
 

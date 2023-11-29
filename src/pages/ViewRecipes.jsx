@@ -40,8 +40,10 @@ export default function ViewRecipes(props) {
   const handleNewRecipe = (fetchedRecipe) => {
     const formattedRecipe = {
       recipe_title: fetchedRecipe.title,
-      recipe_content: fetchedRecipe.recipe
-    }
+      ingredients: fetchedRecipe.ingredients,
+      recipe_content: fetchedRecipe.recipe,
+      nutrition: fetchedRecipe.nutrition,
+    };
     setNewRecipe(formattedRecipe);
   };
 
@@ -52,6 +54,59 @@ export default function ViewRecipes(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  //formatting the recipes
+  const formatList = (text, delimiter) => {
+    // Ensure text is a string before trying to split it
+    if (typeof text !== "string") {
+      return [];
+    }
+
+    if (delimiter === "nutrition") {
+      return text
+        .split("\n")
+        .filter((item) => item.trim() !== "")
+        .map((item) => item.trim());
+    }
+
+    if (typeof delimiter === "string") {
+      return text
+        .split(delimiter)
+        .filter((item) => item.trim() !== "")
+        .map((item) => item.trim());
+    } else if (delimiter instanceof RegExp) {
+      return text
+        .split(delimiter)
+        .slice(1)
+        .map((item) => item.trim());
+    }
+  };
+
+  const RecipeList = ({ listData, delimiter, listType }) => {
+    const formattedList = formatList(listData, delimiter);
+
+    if (delimiter === "nutrition") {
+      return (
+        <div>
+          {formattedList.map((item, index) => (
+            <p
+              key={index}
+              className="nutrition"
+            >
+              {item}
+            </p> 
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <ul style={{ listStyleType: listType }}>
+        {formattedList.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
@@ -59,7 +114,24 @@ export default function ViewRecipes(props) {
       {newRecipe && (
         <Box p={3} mt={2} mb={2} bgcolor={"#f0f0f0"}>
           <h2>{newRecipe.recipe_title}</h2>
-          <Typography variant="body1">{newRecipe.recipe_content}</Typography>
+          <Typography variant="subtitle1">Ingredients:</Typography>
+          <RecipeList
+            listData={newRecipe.ingredients}
+            delimiter="-"
+            listType="disc"
+          />
+          <Typography variant="subtitle1">Instructions:</Typography>
+          <RecipeList
+            listData={newRecipe.recipe_content}
+            delimiter={/\d+\.\s/}
+            listType="decimal"
+          />
+          <Typography variant="subtitle1">Nutrition Values per Serving:</Typography>
+          <RecipeList
+            listData={newRecipe.nutrition}
+            delimiter="nutrition"
+            listType="disc"
+          />
           <button className="edit-button">Save</button>
           <button className="edit-button">Edit</button>
           <button className="delete-button">Discard</button>
@@ -85,7 +157,22 @@ export default function ViewRecipes(props) {
             {value === index && (
               <Box p={3}>
                 <h2>{recipe.recipe_title}</h2>
-                <Typography variant="body1">{recipe.recipe_content}</Typography>
+                <Typography variant="subtitle1">Ingredients:</Typography>
+                <Typography variant="body2" paragraph>
+                  {recipe.ingredients}
+                </Typography>
+                <Typography variant="subtitle1">Instructions:</Typography>
+                <Typography variant="body2" paragraph>
+                  {recipe.recipe_content}
+                </Typography>
+                <Typography variant="subtitle1">
+                  Nutrition Values per Serving:
+                </Typography>
+                <RecipeList
+                  listData={recipe.nutrition}
+                  delimiter="nutrition"
+                  listType="disc"
+                />
               </Box>
             )}
           </div>

@@ -1,7 +1,7 @@
 const db = require("../database/dbConfig");
 const recipeService = require("../services/recipeService");
 const { getCompletion } = require("../services/openaiService");
-const { getDogByIdAndUserId } = require('../models/userModel')
+const { getDogByIdAndUserId } = require("../models/userModel");
 
 const recipeController = {};
 
@@ -16,76 +16,123 @@ recipeController.getDogRecipe = async (req, res) => {
     if (!dogDetails) return res.status(404).json({ error: "Dog not found" });
 
     const prompt = `
-        Give me a dog recipe with a title that does not include any food that dogs can't eat.
-        The recipe should have exact measurements for each ingredient and instructions on how to prepare.
-        Create a semantic title and easy to follow recipe. Your response should be constructed like this: 
-        Title: -insert title here-
-        Recipe: -insert recipe here- 
-        The recipe should hit the following macros: 
-        Protein: ${dogDetails.protein}g, Fat: ${dogDetails.fat}g, Carbs: ${dogDetails.carbs}g 
-        with a maximum calorie count of ${dogDetails.totalCals} calories. 
-        Also, do not include the following ingredients: ${dogDetails.allergies}.
-        `;
+  Create a dog recipe with a clear title, precise ingredient measurements, and easy-to-follow preparation instructions. Please adhere strictly to this structure:
 
-      const response = await getCompletion(prompt);
-      console.log("OpenAI API Response:", response);
-  
-      if (!response || !response.choices || response.choices.length === 0 || !response.choices[0].message || !response.choices[0].message.content) {
-        console.error("Invalid structure in response from OpenAI:", response);
-        return res.status(500).json({ error: "Failed to generate recipe. Please try again later." });
-      }
-    
-      const content = response.choices[0].message.content;
-      console.log("Response Content:", content);
-  
-      // Parse the response
-      const titleMatch = content.match(/Title: (.+?)(?:\n|$)/);
-      const recipeMatch = content.match(/Recipe:\n([\s\S]+)/);
-      
-      console.log('Title Match:', titleMatch);
-      console.log('Recipe Match:', recipeMatch);
-      
-      if (!titleMatch || !recipeMatch) {
-        console.error('Failed to parse response:', content);
-        return res.status(500).json({ error: 'Failed to generate recipe. Please try again later.' });
-      }
-      
-      const parsedResponse = {
-        title: titleMatch[1].trim(),
-        recipe: recipeMatch[1].trim(),
-      };
-      
-      console.log('Parsed Response:', parsedResponse);
-      
-      res.json({ message: 'Recipe generated successfully.', data: parsedResponse });
-} catch (err) {
-  console.error("Error in recipeController.getDogRecipe", err);
-  res.status(500).send("Error creating recipe.");
-}
+  Title: -insert title here-
+
+  Ingredients: 
+  - Insert each ingredient with its exact measurement on a new line.
+  -At the top of the ingredients section, please include how many servings this makes.
+
+  Recipe Instructions: 
+  - Provide step-by-step cooking instructions here.
+  - Ensure that this section contains only the preparation steps without any nutritional information.
+  - Each recipe you provide should cover the nutritional needs of the dog as much as possible.
+  - Please use pounds, cups, ounces, tablespoons, teaspoons when you include measurements.
+
+  Nutrition Values per Serving: 
+  - Detail only the macro nutritional values here: Protein, Fat, and Carbs.
+  - Please match these macros values as close as possible in the generation of the recipe per serving-- This particular dog needs these daily values hit: Protein: ${dogDetails.protein}g, Fat: ${dogDetails.fat}g, Carbs: ${dogDetails.carbs}g. Do not include the total macros for the recipe as a whole. Include the macros per serving.
+  - Do not include total calorie count or any other nutritional details apart from the specified macros.
+
+  Exclude any ingredients that are harmful to dogs and this as well: ${dogDetails.allergies}.
+`;
+
+    const response = await getCompletion(prompt);
+    console.log("OpenAI API Response:", response);
+
+    if (
+      !response ||
+      !response.choices ||
+      response.choices.length === 0 ||
+      !response.choices[0].message ||
+      !response.choices[0].message.content
+    ) {
+      console.error("Invalid structure in response from OpenAI:", response);
+      return res
+        .status(500)
+        .json({ error: "Failed to generate recipe. Please try again later." });
+    }
+
+    const content = response.choices[0].message.content;
+    console.log("Response Content:", content);
+
+    // Parse the response
+    const titleMatch = content.match(/Title: (.+?)(?:\n|$)/);
+    const ingredientsMatch = content.match(
+      /Ingredients:\n([\s\S]+?)\n(?=Recipe Instructions:)/
+    );
+    const recipeMatch = content.match(
+      /Recipe Instructions:\n([\s\S]+?)\n(?=Nutrition Values per Serving:)/
+    );
+    const nutritionMatch = content.match(
+      /Nutrition Values per Serving:\n([\s\S]+)/
+    );
+
+    console.log("Title Match:", titleMatch);
+    console.log("Ingredients Match:", ingredientsMatch);
+    console.log("Recipe Match:", recipeMatch);
+    console.log("Nutrition Match:", ingredientsMatch);
+
+    if (!titleMatch || !ingredientsMatch || !recipeMatch || !nutritionMatch) {
+      console.error("Failed to parse response:", content);
+      return res
+        .status(500)
+        .json({ error: "Failed to generate recipe. Please try again later." });
+    }
+
+    const parsedResponse = {
+      title: titleMatch[1].trim(),
+      ingredients: ingredientsMatch[1].trim(),
+      recipe: recipeMatch[1].trim(),
+      nutrition: nutritionMatch[1].trim(),
+    };
+
+    console.log("Parsed Response:", parsedResponse);
+
+    res.json({
+      message: "Recipe generated successfully.",
+      data: parsedResponse,
+    });
+  } catch (err) {
+    console.error("Error in recipeController.getDogRecipe", err);
+    res.status(500).send("Error creating recipe.");
+  }
 };
 
 //Save recipe to profile
-recipeController.saveRecipe = async (req,res) => {
-  const { title, recipe } = req.body;
+recipeController.saveRecipe = async (req, res) => {
+  const { recipe_title, recipe_content, ingredients, nutrition } = req.body;
   const { dogId } = req.params;
-  const userId = req.user.id;
 
   try {
     //validate data
-    if (!dogId || !title || !recipe) {
+    if (
+      !dogId ||
+      !recipe_title ||
+      !recipe_content ||
+      !ingredients ||
+      !nutrition
+    ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    console.log('line 73')
-    const savedRecipe = await recipeService.storeRecipe(dogId, title, recipe);
+    console.log("line 73");
+    const savedRecipe = await recipeService.storeRecipe(
+      dogId,
+      recipe_title,
+      recipe_content,
+      ingredients,
+      nutrition
+    );
 
     if (savedRecipe) {
-      res.json({ message: 'Recipe saved successfully!', savedRecipe });
+      res.json({ message: "Recipe saved successfully!", savedRecipe });
     } else {
-      res.status(400).json({ error: 'Failed to save recipe.' });
+      res.status(400).json({ error: "Failed to save recipe." });
     }
   } catch (err) {
-    console.error('Error in recipeController.saveRecipe.', err);
-    res.status(500).send('Error saving recipe');
+    console.error("Error in recipeController.saveRecipe.", err);
+    res.status(500).send("Error saving recipe");
   }
 };
 
@@ -112,36 +159,27 @@ recipeController.displayAllRecipes = async (req, res) => {
 // Allows user to make any changes to a stored recipe
 recipeController.editRecipe = async (req, res) => {
   const { dogId, recipeId } = req.params;
-  const { recipe_title, recipe_content } = req.body;
-  const userId = req.user.id;
+  const { recipe_title, recipe_content, ingredients, nutrition } = req.body;
 
-  //check if dog belongs to user:
-  const ownershipCheckSql = `SELECT user_id FROM dogs WHERE id = $1`;
-  const dog = await db.query(ownershipCheckSql, [dogId]);
-
-  if (!dog.rows[0] || dog.rows[0].user_id !== userId) {
-    return res
-      .status(403)
-      .json({
-        message: "You do not have permission to edit recipes for this dog.",
-      });
-  }
-  console.log(req.body)
   try {
     const sqlCommand = `
           UPDATE recipes
           SET recipe_title =  COALESCE($1, recipe_title),
-              recipe_content = COALESCE($2, recipe_content)
-          WHERE dog_id = $3 AND id = $4
+              recipe_content = COALESCE($2, recipe_content),
+              ingredients = COALESCE($3, ingredients),
+              nutrition = COALESCE($4, nutrition)
+          WHERE dog_id = $5 AND id = $6
         `;
     const values = [
       recipe_title !== undefined ? recipe_title : null,
       recipe_content !== undefined ? recipe_content : null,
+      ingredients !== undefined ? ingredients : null,
+      nutrition !== undefined ? nutrition : null,
       dogId,
       recipeId,
     ];
-    console.log('SQL Command:', sqlCommand);
-    console.log('Values:', values);
+    // console.log('SQL Command:', sqlCommand);
+    // console.log('Values:', values);
 
     const result = await db.query(sqlCommand, values);
 
@@ -159,22 +197,7 @@ recipeController.editRecipe = async (req, res) => {
 recipeController.deleteRecipe = async (req, res) => {
   const { recipe_title } = req.body;
   const { dogId } = req.params;
-  const userId = req.user.id;
 
-  // First check if the dog belongs to the user
-  const ownershipCheckSql = `SELECT user_id FROM dogs WHERE id = $1`;
-  const dog = await db.query(ownershipCheckSql, [dogId]);
-
-  if (!dog.rows[0] || dog.rows[0].user_id !== userId) {
-    return res
-      .status(403)
-      .json({
-        message:
-          "You do not have permission to delete recipes from this dog's profile.",
-      });
-  }
-
-  // If the dog belongs to the user, proceed with recipe deletion
   const deleteRecipeSql = `
       DELETE FROM recipes
       WHERE dog_id = $1 AND recipe_title = $2
