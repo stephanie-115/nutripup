@@ -18,6 +18,7 @@ export default function App() {
     <Router>
       <AuthProvider>
         <NavBar />
+        <div className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<UserProfile />} />
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-in" element={<SignIn />} />
         </Routes>
+        </div>
       </AuthProvider>
     </Router>
     </div>

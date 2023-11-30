@@ -89,20 +89,24 @@ export default function CreateDogProfile() {
   const viewProfile = (dogId) => {
     navigate(`/dog/view-profile/${dogId}`);
   };
-//modal logic
+  //modal logic
   function SuccessModal({ isOpen, onClose, dogName, viewProfile }) {
     if (!isOpen) return null;
-  
+
     return (
       <div className="modal-backdrop">
         <div className="modal">
           <p>Success! {dogName}'s profile has been added.</p>
-          <button onClick={() => viewProfile()} className="navbar-button">View Profile</button>
-          <button onClick={() => onClose()} className="navbar-button">Add Another Dog</button>
+          <button onClick={() => viewProfile()} className="navbar-button">
+            View Profile
+          </button>
+          <button onClick={() => onClose()} className="navbar-button">
+            Add Another Dog
+          </button>
         </div>
       </div>
     );
-  }  
+  }
 
   return (
     <>
@@ -136,9 +140,7 @@ export default function CreateDogProfile() {
           <label>lbs</label>
         </div>
         <div className="form-field">
-          <label htmlFor="yesNoSelect">
-            Has your pup been fixed?{" "}
-          </label>
+          <label htmlFor="yesNoSelect">Has your pup been fixed? </label>
           <select
             name="yesNoSelect"
             id="yesNoSelect"
@@ -151,7 +153,7 @@ export default function CreateDogProfile() {
           </select>
         </div>
         <div className="form-field">
-          <label htmlFor="activityLevelSelect">How active is your pup?</label>
+          <label htmlFor="activityLevelSelect">How active is your pup? </label>
           <select
             name="activityLevelSelect"
             id="activityLevelSelect"
@@ -178,9 +180,7 @@ export default function CreateDogProfile() {
           />
         </div>
         <div className="form-field">
-          <label htmlFor="allergies">
-            What food is your pup allergic to?{" "}
-          </label>
+          <label htmlFor="allergies">What food is your pup allergic to? </label>
           <input
             id="allergies"
             className="input"
@@ -198,11 +198,11 @@ export default function CreateDogProfile() {
         </div>
       </form>
       <SuccessModal
-      isOpen={showModal}
-      onClose={() => setShowModal(false)}
-      dogName={modalDogName}
-      viewProfile={() => viewProfile(newDogId)}
-    />
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        dogName={modalDogName}
+        viewProfile={() => viewProfile(newDogId)}
+      />
     </>
   );
 }

@@ -66,44 +66,44 @@ export default function ViewDogProfile() {
   return (
     <div className="parent-container">
       <div className="dog-card">
-        <h3>{dog.dog_name}</h3>
+        <h2>{dog.dog_name}</h2>
         <p>
-          <span className="dog-label">Breed:</span>{" "}
+          <span className="dog-label">Breed: </span>{" "}
           <span className="dog-value">{dog.dog_breed}</span>
         </p>
         <p>
-          <span className="dog-label">Ideal Weight:</span>{" "}
+          <span className="dog-label">Ideal Weight: </span>{" "}
           <span className="dog-value">{dog.ideal_weight}</span>
         </p>
         <p>
-          <span className="dog-label">Activity Level:</span>{" "}
+          <span className="dog-label">Activity Level: </span>{" "}
           <span className="dog-value">{dog.activity_level}</span>
         </p>
         <p>
-          <span className="dog-label">Fixed:</span>{" "}
+          <span className="dog-label">Fixed: </span>{" "}
           <span className="dog-value">{dog.neutered ? "Yes" : "No"}</span>
         </p>
         <p>
-          <span className="dog-label">Allergies:</span>{" "}
+          <span className="dog-label">Allergies: </span>{" "}
           <span className="dog-value">{dog.allergies}</span>
         </p>
         <p>
-          <span className="dog-label">Total Daily Recommended Calories:</span>{" "}
+          <span className="dog-label">Total Daily Recommended Calories: </span>{" "}
           <span className="dog-value">{dog.total_calories}</span>
         </p>
         <p>
-          <span className="dog-label">Total Daily Protein:</span>{" "}
+          <span className="dog-label">Total Daily Protein: </span>{" "}
           <span className="dog-value">{dog.protein}</span>
         </p>
         <p>
-          <span className="dog-label">Total Daily Fat:</span>{" "}
+          <span className="dog-label">Total Daily Fat: </span>{" "}
           <span className="dog-value">{dog.fat}</span>
         </p>
         <p>
-          <span className="dog-label">Total Daily Carbs:</span>{" "}
+          <span className="dog-label">Total Daily Carbs: </span>{" "}
           <span className="dog-value">{dog.carbs}</span>
         </p>
-
+    <div className="dog-button-container">
         <button onClick={handleEditClick} className="edit-button">
           Edit
         </button>
@@ -113,6 +113,7 @@ export default function ViewDogProfile() {
         >
           View Recipes
         </button>
+        </div>
         {showEditModal && (
           <EditDogModal
             dog={dog}

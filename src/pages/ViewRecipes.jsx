@@ -111,25 +111,29 @@ export default function ViewRecipes(props) {
   };
 
   return (
-    <Box sx={{ bgcolor: "background.paper" }}>
-       <LoadingCarousel isLoading={isLoading}/>
+    <Box sx={{ 
+      bgcolor: "var(--color-light)", 
+      marginX: 'auto',
+      maxWidth: 'lg',
+      padding: 1,
+      width: 'auto',
+      boxSizing:'border-box'
+      }}>
+      <LoadingCarousel isLoading={isLoading} />
+      <div style={{ display: 'flex', justifyContent: 'center',  alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
       <CreateRecipe onNewRecipe={handleNewRecipe} setIsLoading={setIsLoading} />
       {recipeTitle && (
-        <Box p={3} mt={2} mb={2} bgcolor={"#f0f0f0"}>
+        <Box p={3} mt={2} mb={2} style={{ backgroundColor: 'var(--color-tertiary)' }}>
           <h2>{recipeTitle}</h2>
-          <Typography variant="subtitle1">Ingredients:</Typography>
-          <RecipeList
-            listData={ingredients}
-            delimiter={/-/} 
-            listType="disc"
-          />
-          <Typography variant="subtitle1">Instructions:</Typography>
+          <Typography variant="subtitle1" style={{ fontWeight: 'bold'}}>Ingredients:</Typography>
+          <RecipeList listData={ingredients} delimiter={/-/} listType="disc" />
+          <Typography variant="subtitle1" style={{ fontWeight: 'bold'}}>Instructions:</Typography>
           <RecipeList
             listData={recipeContent}
-            delimiter={/\d+\.\s/} 
+            delimiter={/\d+\.\s/}
             listType="decimal"
           />
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" style={{ fontWeight: 'bold'}}>
             Nutrition Values per Serving:
           </Typography>
           <RecipeList
@@ -137,28 +141,31 @@ export default function ViewRecipes(props) {
             delimiter="\n" // Each nutrition fact is on a new line
             listType="none"
           />
-          <SaveRecipe 
-          recipeTitle={recipeTitle}
-          ingredients={ingredients}
-          recipeContent={recipeContent}
-          nutrition={nutrition}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <SaveRecipe
+            recipeTitle={recipeTitle}
+            ingredients={ingredients}
+            recipeContent={recipeContent}
+            nutrition={nutrition}
           />
           <button className="edit-button">Edit</button>
           <button className="delete-button" onClick={handleDiscardRecipe}>
             Discard
           </button>
+          </div>
         </Box>
       )}
+      </div>
       <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            '.Mui-selected': {
-              color: 'darkcyan !important',
-            }
-          }}
+        value={value}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons="auto"
+        sx={{
+          ".Mui-selected": {
+            color: "darkcyan !important",
+          },
+        }}
       >
         {recipes.length > 0 ? (
           recipes.map((recipe, index) => (
@@ -168,21 +175,27 @@ export default function ViewRecipes(props) {
           <Tab label="No Recipes Available" disabled />
         )}
       </Tabs>
+      
       {recipes.length > 0 ? (
+   
         recipes.map((recipe, index) => (
           <div role="tabpanel" hidden={value !== index} key={index}>
             {value === index && (
               <Box p={3}>
                 <h2>{recipe.recipe_title}</h2>
-                <Typography variant="subtitle1">Ingredients:</Typography>
-                <Typography variant="body2" paragraph>
-                  {recipe.ingredients}
-                </Typography>
-                <Typography variant="subtitle1">Instructions:</Typography>
-                <Typography variant="body2" paragraph>
-                  {recipe.recipe_content}
-                </Typography>
-                <Typography variant="subtitle1">
+                <Typography variant="subtitle1" style={{ fontWeight: 'bold'}}>Ingredients:</Typography>
+                <RecipeList
+                  listData={recipe.ingredients}
+                  delimiter={/-/} // Adjust if needed
+                  listType="disc"
+                />
+                <Typography variant="subtitle1" style={{ fontWeight: 'bold'}}>Instructions:</Typography>
+                <RecipeList
+                  listData={recipe.recipe_content}
+                  delimiter={/\d+\.\s/} // Adjust if needed
+                  listType="decimal"
+                />
+                <Typography variant="subtitle1" style={{ fontWeight: 'bold'}}>
                   Nutrition Values per Serving:
                 </Typography>
                 <RecipeList
@@ -190,10 +203,16 @@ export default function ViewRecipes(props) {
                   delimiter="\n"
                   listType="none"
                 />
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                <button className="edit-button">Edit Recipe</button>
+                <button className="delete-button">Delete Recipe</button>
+                </div>
               </Box>
             )}
+            
           </div>
         ))
+        
       ) : (
         <Typography
           variant="h6"
