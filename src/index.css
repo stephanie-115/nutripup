@@ -238,7 +238,7 @@ p {
 .delete-button, .view-profile-button, .view-recipes-button, .signup-button {
   padding: 12px 20px;
   font-size: 16px;
-  border: none;
+  border: var(--color-dark);
   border-radius: 5px;
   max-width: 200px;
   margin: 10px auto;

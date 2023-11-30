@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { styled } from '@mui/material/styles';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,6 +10,14 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+
+const StyledButton = styled(Button)({
+  backgroundColor: '#031926',
+  color: '#f4e9cd',
+  '&:hover': {
+    backgroundColor: '#468189',
+  },
+});
 
 export default function EditDogModal({ dog, onClose, onSave }) {
   const [editedDog, setEditedDog] = useState(dog);
@@ -28,7 +37,11 @@ export default function EditDogModal({ dog, onClose, onSave }) {
   };
 
   return (
-    <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title" PaperProps={{
+      style: {
+        backgroundColor: '#9dbebb',
+      },
+    }}>
       <DialogTitle id="form-dialog-title">Edit Dog</DialogTitle>
       <DialogContent>
         <TextField
@@ -111,12 +124,12 @@ export default function EditDogModal({ dog, onClose, onSave }) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
+        <StyledButton onClick={onClose} color="primary">
           Cancel
-        </Button>
-        <Button onClick={handleSave} color="primary">
+        </StyledButton>
+        <StyledButton onClick={handleSave} color="primary">
           Save Changes
-        </Button>
+        </StyledButton>
       </DialogActions>
     </Dialog>
   );
