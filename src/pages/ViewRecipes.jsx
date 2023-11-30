@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CreateRecipe from "../components/CreateRecipe";
 import SaveRecipe from "../components/SaveRecipe";
+import LoadingCarousel from "../components/LoadingCarousel";
 
 export default function ViewRecipes(props) {
   const [value, setValue] = useState(0);
@@ -14,6 +15,7 @@ export default function ViewRecipes(props) {
   const [recipeContent, setRecipeContent] = useState("");
   const [nutrition, setNutrition] = useState("");
   const [recipes, setRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { dogId } = useParams();
 
   useEffect(() => {
@@ -110,20 +112,21 @@ export default function ViewRecipes(props) {
 
   return (
     <Box sx={{ bgcolor: "background.paper" }}>
-      <CreateRecipe onNewRecipe={handleNewRecipe} />
+       <LoadingCarousel isLoading={isLoading}/>
+      <CreateRecipe onNewRecipe={handleNewRecipe} setIsLoading={setIsLoading} />
       {recipeTitle && (
         <Box p={3} mt={2} mb={2} bgcolor={"#f0f0f0"}>
           <h2>{recipeTitle}</h2>
           <Typography variant="subtitle1">Ingredients:</Typography>
           <RecipeList
             listData={ingredients}
-            delimiter={/-/} // Use a regex to split by the dash
+            delimiter={/-/} 
             listType="disc"
           />
           <Typography variant="subtitle1">Instructions:</Typography>
           <RecipeList
             listData={recipeContent}
-            delimiter={/\d+\.\s/} // Assuming instructions are numbered
+            delimiter={/\d+\.\s/} 
             listType="decimal"
           />
           <Typography variant="subtitle1">
@@ -147,10 +150,15 @@ export default function ViewRecipes(props) {
         </Box>
       )}
       <Tabs
-        value={value}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons="auto"
+          value={value}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{
+            '.Mui-selected': {
+              color: 'darkcyan !important',
+            }
+          }}
       >
         {recipes.length > 0 ? (
           recipes.map((recipe, index) => (

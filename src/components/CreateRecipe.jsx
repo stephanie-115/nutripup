@@ -2,11 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 
-export default function CreateRecipe({ onNewRecipe }) {
+export default function CreateRecipe({ onNewRecipe, setIsLoading }) {
     const { dogId } = useParams();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
           const response = await fetch(`http://localhost:8080/recipe/create/${dogId}`, {
             method: "GET",
@@ -21,8 +22,8 @@ export default function CreateRecipe({ onNewRecipe }) {
           }
 
           const data = await response.json();
-          console.log('Data:', data)
-          onNewRecipe(data.data)
+          onNewRecipe(data.data);
+          setIsLoading(false);
         } catch (error) {
             console.error("Error in CreateRecipe component", error)
         }
