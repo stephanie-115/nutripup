@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function SaveRecipe({
-  recipeTitle,
+  recipe_title,
   ingredients,
   recipeContent,
   nutrition,
+  newRecipe,
+  setRecipes,
+  onSave,
 }) {
   const { dogId } = useParams();
 
@@ -13,30 +16,35 @@ export default function SaveRecipe({
     try {
       // forming recipe data from props
       const recipeData = {
-        recipe_title: recipeTitle,
-        ingredients: ingredients,
-        recipe_content: recipeContent,
-        nutrition: nutrition,
-      };
+        recipe_title: newRecipe.recipe_title,
+        ingredients: newRecipe.ingredients,
+        recipe_content: newRecipe.recipe_content,
+        nutrition: newRecipe.nutrition,
+      };      
 
-      const response = await fetch(
-        `http://localhost:8080/recipe/save/${dogId}`,
-        {
-          method: "POST",
-          body: JSON.stringify(recipeData),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      if (newRecipe && !newRecipe.id) {
+        console.log("Saving Recipe Data:", recipeData);
+        const response = await fetch(
+          `http://localhost:8080/recipe/save/${dogId}`,
+          {
+            method: "POST",
+            body: JSON.stringify(recipeData),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error status: ${response.status}`);
         }
-      );
-      // check if http response isn't successful
-      if (!response.ok) {
-        throw new Error(`HTTP error status: ${response.status}`);
+        const savedRecipeData = await response.json();
+        console.log("Saved Recipe Data:", savedRecipeData);
+        onSave(savedRecipeData)
+        // Update your state here with the new recipe data
+        setRecipes((prevRecipes) => [...prevRecipes, savedRecipeData])
       }
-      const responseData = await response.json();
-    // Refresh the page on successful save
-    window.location.reload();
     } catch (error) {
       console.error("Error in SaveRecipe Component,", error);
     }

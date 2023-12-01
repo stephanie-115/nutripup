@@ -11,7 +11,6 @@ export default function LoadingCarousel({ isLoading }) {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    afterChange: (current) => console.log("current slide:", current),
   }
   return (
     <div>
@@ -30,7 +29,7 @@ export default function LoadingCarousel({ isLoading }) {
                 alignItems: 'center', 
                 zIndex: 1000,
               }}>
-            <Typography variant="h4" style={{ textAlign: 'center', marginTop: "50px", marginBottom: '10px', color:'white' }}>
+            <Typography variant="h4" style={{ textAlign: 'center', marginTop: "200px", color:'#f4e9cd' }}>
             Please wait while our canine chefs fetch your recipe!
             </Typography>
           <Slider {...settings}>

@@ -18,11 +18,13 @@ recipeController.getDogRecipe = async (req, res) => {
     const prompt = `
   Create a dog recipe with a clear title, precise ingredient measurements, and easy-to-follow preparation instructions. Please adhere strictly to this structure:
 
-  Title: -insert title here-
+  Title: 
+  - Insert title here
+  - Create a semantic title, but make it fun sounding too!
 
   Ingredients: 
   - Insert each ingredient with its exact measurement on a new line.
-  -At the top of the ingredients section, please include how many servings this makes.
+  - At the top of the ingredients section, please include how many servings this makes.
 
   Recipe Instructions: 
   - Provide step-by-step cooking instructions here.
@@ -82,9 +84,9 @@ recipeController.getDogRecipe = async (req, res) => {
     }
 
     const parsedResponse = {
-      title: titleMatch[1].trim(),
+      recipe_title: titleMatch[1].trim(),
       ingredients: ingredientsMatch[1].trim(),
-      recipe: recipeMatch[1].trim(),
+      recipe_content: recipeMatch[1].trim(),
       nutrition: nutritionMatch[1].trim(),
     };
 
@@ -139,7 +141,6 @@ recipeController.saveRecipe = async (req, res) => {
 //Display all recipes for a dog
 recipeController.displayAllRecipes = async (req, res) => {
   const { dogId } = req.params;
-  const userId = req.user.id;
 
   try {
     const sqlCommand = `

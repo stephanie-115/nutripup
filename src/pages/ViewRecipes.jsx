@@ -8,7 +8,6 @@ import CreateRecipe from "../components/CreateRecipe";
 import SaveRecipe from "../components/SaveRecipe";
 import LoadingCarousel from "../components/LoadingCarousel";
 import EditRecipe from "../components/EditRecipe";
-import { NewReleases } from "@mui/icons-material";
 
 export default function ViewRecipes(props) {
   const [value, setValue] = useState(0);
@@ -22,39 +21,39 @@ export default function ViewRecipes(props) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [newRecipe, setNewRecipe] = useState(null);
   const { dogId } = useParams();
-  console.log('Dog ID:', dogId);
+  console.log("Current Recipes State:", recipes);
 
-  useEffect(() => {
-    fetch(`/recipe/display-all/${dogId}`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        if (response.status === 404) {
-          return { recipes: [] };
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      })
-      .then((data) => {
-        console.log("API Response:", data);
-        setRecipes(data.recipes);
-        console.log(recipes);
-      })
-      .catch((error) => {
-        console.error("Error fetching recipes:", error);
+  // Fetch recipes function
+  const fetchRecipes = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/recipe/display-all/${dogId}`, {
+        method: "GET",
+        credentials: "include",
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setRecipes(data.recipes);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+   // Fetch recipes on mount
+   useEffect(() => {
+    fetchRecipes();
   }, [dogId]);
 
   const handleNewRecipe = (fetchedRecipe) => {
-    console.log("Fetched Recipe:", fetchedRecipe);
     setNewRecipe(fetchedRecipe);
     setSelectedRecipe(fetchedRecipe);
-    setRecipeTitle(fetchedRecipe.title);
+    setRecipeTitle(fetchedRecipe.recipe_title);
     setIngredients(fetchedRecipe.ingredients);
-    setRecipeContent(fetchedRecipe.recipe);
+    setRecipeContent(fetchedRecipe.recipe_content);
     setNutrition(fetchedRecipe.nutrition);
   };
 
@@ -68,8 +67,8 @@ export default function ViewRecipes(props) {
 
     const normalizedRecipe = {
       id: recipe.id,
-      recipe_title: recipe.title || recipe.recipe_title,
-      recipe_content: recipe.recipe || recipe.recipe_content,
+      recipe_title: recipe.recipe_title,
+      recipe_content: recipe.recipe_content,
       ingredients: recipe.ingredients,
       nutrition: recipe.nutrition,
       isSaved: isSaved,
@@ -94,7 +93,13 @@ export default function ViewRecipes(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
+  const updateRecipesAfterSave = (newRecipe) => {
+    fetchRecipes(); // re-fetch recipes
+    setNewRecipe(null);
+    setValue(0);
+  };
+  
   //formatting the recipes
   const formatList = (text, delimiter) => {
     // Ensure text is a string before trying to split it
@@ -178,7 +183,7 @@ export default function ViewRecipes(props) {
             mb={2}
             style={{ backgroundColor: "var(--color-tertiary)" }}
           >
-            <h2>{newRecipe.title}</h2>
+            <h2>{newRecipe.recipe_title}</h2>
             <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
               Ingredients:
             </Typography>
@@ -211,6 +216,9 @@ export default function ViewRecipes(props) {
                 ingredients={ingredients}
                 recipeContent={recipeContent}
                 nutrition={nutrition}
+                newRecipe={newRecipe}
+                setRecipes={setRecipes}
+                onSave={updateRecipesAfterSave}
               />
               <button
                 className="edit-button"

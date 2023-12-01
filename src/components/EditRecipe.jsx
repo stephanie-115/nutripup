@@ -16,7 +16,6 @@ const StyledButton = styled(Button)({
 });
 
 export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
-  console.log("Received Dog ID in EditRecipe:", dogId);
   const [editedRecipe, setEditedRecipe] = useState({ ...recipe });
 
   const handleInputChange = (e) => {
@@ -27,12 +26,14 @@ export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
   useEffect(() => {
     if (recipe) {
       setEditedRecipe(recipe);
+      console.log("Updated editedRecipe:", recipe);
     }
   }, [recipe]);
 
   
 
   const handleEdit = async () => {
+    if (editedRecipe.isSaved) {
     const recipeId = editedRecipe.id
       try {
         const response = await fetch(`http://localhost:8080/recipe/edit/${dogId}/${recipeId}`, {
@@ -52,6 +53,10 @@ export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
         console.error('Error updating recipe', error)
       }
     onClose();
+  } else {
+    onRecipeUpdate(editedRecipe);
+    onClose();
+  }
   };
 
   return (
