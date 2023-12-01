@@ -36,6 +36,11 @@ export default function ViewRecipes(props) {
       }
       const data = await response.json();
       setRecipes(data.recipes);
+
+      // check if current tab index exceeds the number of recipes
+      if(value >= data.recipes.length) {
+        setValue(data.recipes.length > 0 ? data.recipes.length - 1 : 0);
+      }
     } catch (error) {
       console.error("Error fetching recipes:", error);
     } finally {
