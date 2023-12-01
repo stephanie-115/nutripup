@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function CreateRecipe({ onNewRecipe, setIsLoading }) {
@@ -23,13 +25,16 @@ export default function CreateRecipe({ onNewRecipe, setIsLoading }) {
 
           const data = await response.json();
           onNewRecipe(data.data);
-          setIsLoading(false);
         } catch (error) {
+           toast.error("Error: Unable to create recipe");
             console.error("Error in CreateRecipe component", error)
-        }
+        }  finally {
+          setIsLoading(false);
+      }
       }
   return (
     <>
+    <ToastContainer />
     <button className="edit-button" onClick={handleSubmit}>Create New Recipe</button>
     </>
   )
