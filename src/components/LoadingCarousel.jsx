@@ -14,7 +14,6 @@ export default function LoadingCarousel({ isLoading }) {
   }
   return (
     <div>
-        {console.log('Is loading?', isLoading)}
         {isLoading && (
             <div style={{
                 position: 'fixed',

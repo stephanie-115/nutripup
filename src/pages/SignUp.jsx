@@ -11,7 +11,7 @@ const SuccessModal = ({ isOpen, onClose }) => {
       <div className="modal-content">
         <h2>Sign In Successful</h2>
         <p>Welcome! You will now be redirected to the homepage.</p>
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose} className="modal-button">Close</button>
       </div>
     </div>
   );
