@@ -3,12 +3,12 @@ const auth = {
     console.log("User authenticated:", req.isAuthenticated());
     if (req.isAuthenticated()) return next();
     // If not authenticated, send back to login page
-    return res.redirect('/sign-in');
+    return res.redirect("/sign-in");
   },
 
   redirectIfAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-      return res.redirect('/');  
+      return res.redirect("/");
     }
     return next();
   },
@@ -17,7 +17,6 @@ const auth = {
   //   req.user = { id: 1 };
   //   next();
   // }
-  
 };
 
 module.exports = auth;

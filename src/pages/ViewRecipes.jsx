@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -21,7 +21,8 @@ export default function ViewRecipes(props) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [newRecipe, setNewRecipe] = useState(null);
-  const { dogId } = useParams();
+  const navigate = useNavigate();
+  const { dogId, recipeId } = useParams();
 
   useEffect(() => {
     fetch(`/recipe/display-all/${dogId}`, {
@@ -57,13 +58,6 @@ export default function ViewRecipes(props) {
     setNutrition(fetchedRecipe.nutrition);
   };
 
-  const handleDiscardRecipe = () => {
-    setRecipeTitle("");
-    setIngredients("");
-    setRecipeContent("");
-    setNutrition("");
-  };
-
   const handleDiscardNewRecipe = () => {
     setNewRecipe(null);
   };
@@ -77,8 +71,18 @@ export default function ViewRecipes(props) {
   };
 
   const handleEditClick = (recipe) => {
-    setSelectedRecipe(recipe);
-    setShowEditModal(true);
+    // check if recipe is in the saved recipe list
+    const isSaved = recipes.some(r => r.id === recipe.id);
+
+    if (isSaved) {
+      //navigate to edit modal with recipeId for saved recipes
+      navigate(`/recipe/edit/${dogId}/${recipe.id}`);
+    } else {
+      // for unsaved/new recipes, handle editing differently
+      setSelectedRecipe(recipe);
+      setShowEditModal(true);
+    }
+
   };
 
   const handleChange = (event, newValue) => {

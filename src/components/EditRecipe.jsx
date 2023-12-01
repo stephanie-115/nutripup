@@ -22,14 +22,13 @@ export default function EditRecipe({
   onClose,
   dogId
 }) {
-  const [editedRecipe, setEditedRecipe] = useState(
-    recipe || {
+  const [editedRecipe, setEditedRecipe] = useState({
       title: "",
       ingredients: "",
       recipe: "",
       nutrition: "",
-    }
-  )
+      ...recipe
+    });
 
   // Update state when the recipe prop changes
   useEffect(() => {
@@ -42,8 +41,8 @@ export default function EditRecipe({
     setEditedRecipe({ ...editedRecipe, [e.target.name]: e.target.value });
   };
 
-  const handleEdit = (dogId, editedRecipe) => {
-    const editRecipe = async () => {
+  const handleEdit = async () => {
+    const recipeId = editedRecipe.id
       try {
         const response = await fetch(`/recipe/${dogId}/${recipeId}`, {
           method: "PUT",
@@ -59,9 +58,8 @@ export default function EditRecipe({
         //update local state with edited details
         onRecipeUpdate(editedRecipe);
       } catch(error) {
-        console.error('Error updating dog data', error)
+        console.error('Error updating recipe', error)
       }
-    }
     onClose();
   };
 
@@ -121,7 +119,7 @@ export default function EditRecipe({
         <StyledButton onClick={onClose} color="primary">
           Cancel
         </StyledButton>
-        <StyledButton onClick={handleSave} color="primary">
+        <StyledButton onClick={handleEdit} color="primary">
           Save Changes
         </StyledButton>
       </DialogActions>
