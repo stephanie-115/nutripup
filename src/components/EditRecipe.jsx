@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import { useParams } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,19 +15,13 @@ const StyledButton = styled(Button)({
   },
 });
 
-export default function EditRecipe({
-  recipe,
-  onRecipeUpdate,
-  onClose,
-  dogId
-}) {
-  const [editedRecipe, setEditedRecipe] = useState({
-      title: "",
-      ingredients: "",
-      recipe: "",
-      nutrition: "",
-      ...recipe
-    });
+export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
+  console.log("Received Dog ID in EditRecipe:", dogId);
+  const [editedRecipe, setEditedRecipe] = useState({ ...recipe });
+
+  const handleInputChange = (e) => {
+    setEditedRecipe({ ...editedRecipe, [e.target.name]: e.target.value });
+  };
 
   // Update state when the recipe prop changes
   useEffect(() => {
@@ -37,14 +30,12 @@ export default function EditRecipe({
     }
   }, [recipe]);
 
-  const handleInputChange = (e) => {
-    setEditedRecipe({ ...editedRecipe, [e.target.name]: e.target.value });
-  };
+  
 
   const handleEdit = async () => {
     const recipeId = editedRecipe.id
       try {
-        const response = await fetch(`/recipe/${dogId}/${recipeId}`, {
+        const response = await fetch(`http://localhost:8080/recipe/edit/${dogId}/${recipeId}`, {
           method: "PUT",
           body: JSON.stringify(editedRecipe),
           headers: {
@@ -82,7 +73,7 @@ export default function EditRecipe({
           label="Recipe Title"
           type="text"
           fullWidth
-          value={editedRecipe.title}
+          value={editedRecipe.recipe_title}
           onChange={handleInputChange}
         />
 
@@ -91,7 +82,7 @@ export default function EditRecipe({
           name="ingredients"
           label="Ingredients"
           type="text"
-          fullwidth
+          fullWidth
           value={editedRecipe.ingredients}
           onChange={handleInputChange}
         />
@@ -101,8 +92,8 @@ export default function EditRecipe({
           name="recipe_content"
           label="Recipe Content"
           type="text"
-          fullwidth
-          value={editedRecipe.recipe}
+          fullWidth
+          value={editedRecipe.recipe_content}
           onChange={handleInputChange}
         />
         <TextField
@@ -110,7 +101,7 @@ export default function EditRecipe({
           name="nutrition"
           label="Nutrition"
           type="text"
-          fullwidth
+          fullWidth
           value={editedRecipe.nutrition}
           onChange={handleInputChange}
         />

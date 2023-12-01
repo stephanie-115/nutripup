@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -21,8 +21,8 @@ export default function ViewRecipes(props) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [newRecipe, setNewRecipe] = useState(null);
-  const navigate = useNavigate();
-  const { dogId, recipeId } = useParams();
+  const { dogId } = useParams();
+  console.log('Dog ID:', dogId);
 
   useEffect(() => {
     fetch(`/recipe/display-all/${dogId}`, {
@@ -62,27 +62,33 @@ export default function ViewRecipes(props) {
     setNewRecipe(null);
   };
 
+  const handleEditClick = (recipe) => {
+    // determine if recipe is saved...
+    const isSaved = recipe.id !== undefined;
+
+    const normalizedRecipe = {
+      id: recipe.id,
+      recipe_title: recipe.title || recipe.recipe_title,
+      recipe_content: recipe.recipe || recipe.recipe_content,
+      ingredients: recipe.ingredients,
+      nutrition: recipe.nutrition,
+      isSaved: isSaved,
+    };
+    setSelectedRecipe(normalizedRecipe);
+    setShowEditModal(true);
+  };
+
   //update a recipe in state
   const handleRecipeUpdate = (updatedRecipe) => {
-    const updatedRecipes = recipes.map((recipe) =>
+  if (updatedRecipe.isSaved) {
+    const updatedRecipes = recipes.map((recipe) => 
       recipe.id === updatedRecipe.id ? updatedRecipe : recipe
     );
     setRecipes(updatedRecipes);
-  };
-
-  const handleEditClick = (recipe) => {
-    // check if recipe is in the saved recipe list
-    const isSaved = recipes.some(r => r.id === recipe.id);
-
-    if (isSaved) {
-      //navigate to edit modal with recipeId for saved recipes
-      navigate(`/recipe/edit/${dogId}/${recipe.id}`);
-    } else {
-      // for unsaved/new recipes, handle editing differently
-      setSelectedRecipe(recipe);
-      setShowEditModal(true);
-    }
-
+  } else {
+    //for new recipes, update newRecipe state only
+    setNewRecipe(updatedRecipe);
+  }
   };
 
   const handleChange = (event, newValue) => {
@@ -172,7 +178,7 @@ export default function ViewRecipes(props) {
             mb={2}
             style={{ backgroundColor: "var(--color-tertiary)" }}
           >
-            <h2>{newRecipe.recipe_title}</h2>
+            <h2>{newRecipe.title}</h2>
             <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
               Ingredients:
             </Typography>
@@ -217,6 +223,7 @@ export default function ViewRecipes(props) {
                   recipe={selectedRecipe}
                   onRecipeUpdate={handleRecipeUpdate}
                   onClose={() => setShowEditModal(false)}
+                  dogId={dogId}
                 />
               )}
               <button
@@ -306,6 +313,7 @@ export default function ViewRecipes(props) {
           recipe={selectedRecipe}
           onRecipeUpdate={handleRecipeUpdate}
           onClose={() => setShowEditModal(false)}
+          dogId={dogId}
         />
       )}
     </Box>
