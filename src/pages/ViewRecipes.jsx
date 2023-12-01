@@ -8,6 +8,7 @@ import CreateRecipe from "../components/CreateRecipe";
 import SaveRecipe from "../components/SaveRecipe";
 import LoadingCarousel from "../components/LoadingCarousel";
 import EditRecipe from "../components/EditRecipe";
+import DeleteRecipe from "../components/DeleteRecipe";
 
 export default function ViewRecipes(props) {
   const [value, setValue] = useState(0);
@@ -21,7 +22,6 @@ export default function ViewRecipes(props) {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [newRecipe, setNewRecipe] = useState(null);
   const { dogId } = useParams();
-  console.log("Current Recipes State:", recipes);
 
   // Fetch recipes function
   const fetchRecipes = async () => {
@@ -43,8 +43,8 @@ export default function ViewRecipes(props) {
     }
   };
 
-   // Fetch recipes on mount
-   useEffect(() => {
+  // Fetch recipes on mount
+  useEffect(() => {
     fetchRecipes();
   }, [dogId]);
 
@@ -79,27 +79,29 @@ export default function ViewRecipes(props) {
 
   //update a recipe in state
   const handleRecipeUpdate = (updatedRecipe) => {
-  if (updatedRecipe.isSaved) {
-    const updatedRecipes = recipes.map((recipe) => 
-      recipe.id === updatedRecipe.id ? updatedRecipe : recipe
-    );
-    setRecipes(updatedRecipes);
-  } else {
-    //for new recipes, update newRecipe state only
-    setNewRecipe(updatedRecipe);
-  }
+    if (updatedRecipe.isSaved) {
+      const updatedRecipes = recipes.map((recipe) =>
+        recipe.id === updatedRecipe.id ? updatedRecipe : recipe
+      );
+      setRecipes(updatedRecipes);
+    } else {
+      //for new recipes, update newRecipe state only
+      setNewRecipe(updatedRecipe);
+    }
   };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   const updateRecipesAfterSave = (newRecipe) => {
     fetchRecipes(); // re-fetch recipes
     setNewRecipe(null);
     setValue(0);
   };
-  
+
+  const handleDeleteRecipe = () => {};
+
   //formatting the recipes
   const formatList = (text, delimiter) => {
     // Ensure text is a string before trying to split it
@@ -302,7 +304,11 @@ export default function ViewRecipes(props) {
                   >
                     Edit Recipe
                   </button>
-                  <button className="delete-button">Delete Recipe</button>
+                  <DeleteRecipe
+                    dogId={dogId}
+                    recipeTitle={recipe.recipe_title}
+                    fetchRecipes={fetchRecipes}
+                  />
                 </div>
               </Box>
             )}
