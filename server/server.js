@@ -1,5 +1,6 @@
 const express = require("express");
 const passportConfig = require("./config/passportConfig");
+const nodemailer = require("nodemailer");
 const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -35,6 +36,34 @@ app.use((req, res, next) => {
 app.use("/user", userRouter);
 app.use("/dog", dogRouter);
 app.use("/recipe", recipeRouter);
+
+// set up nodemailer
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+app.post("/send-email", (req, res) => {
+  const { name, email, message } = req.body;
+
+  const mailOptions = {
+    from: email,
+    to: process.env.EMAIL_USERNAME,
+    subject: `New Contact Message from ${name}`,
+    text: message,
+    html: `<p>Name: ${name}</p><p>Email: ${email}</p><p>Message: ${message}</p>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).send({ message: "Error sending email", error });
+    }
+    res.status(200).send({ message: "Email successfully sent", info });
+  });
+});
 
 // Endpoint to check auth status
 app.get("/api/auth/check", (req, res) => {
