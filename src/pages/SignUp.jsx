@@ -95,7 +95,7 @@ function SignUp() {
           <h1>Sign Up Here</h1>
           {error && <p className="error">{error}</p>}
           {isSuccess && <p>Signup successful!</p>}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="form-container">
             <input
               name="name"
               type="text"

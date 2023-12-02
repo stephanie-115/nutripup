@@ -3,7 +3,7 @@ import React from "react";
 export default function About() {
   return (
     <>
-      <h2>About Nutri🐶Pup</h2>
+      <h1>Nutri🐶Pup</h1>
 
       <p>
         At the heart of every dog's wagging tail and spirited bark is a need for
@@ -12,7 +12,7 @@ export default function About() {
         elevate their dog's health through nutrition.
       </p>
 
-      <h3>Our Philosophy 🧐</h3>
+      <h2>Our Philosophy 🧐</h2>
       <p>
         We believe that good health starts with what's in the bowl. With the
         myriad of dog food options and the complex needs of each individual dog,
@@ -21,7 +21,7 @@ export default function About() {
         wholesome health accessible for every pup.
       </p>
 
-      <h3>The NutriPup Promise 🤞</h3>
+      <h2>The NutriPup Promise 🤞</h2>
       <p>
         NutriPup was crafted with a promise to provide dog owners with a
         user-friendly, insightful, and scientific approach to canine nutrition.
@@ -30,7 +30,7 @@ export default function About() {
         family member.
       </p>
 
-      <h3>Inspired by Love, Driven by Science 💚🔬</h3>
+      <h2>Inspired by Love, Driven by Science 💚🔬</h2>
       <p>
         Our journey began with a beloved English Bulldog, Stanley, whose health
         challenges led us down the path of canine nutrition research and dietary
@@ -40,7 +40,7 @@ export default function About() {
         complex nutritional data into simple, actionable insights.
       </p>
 
-      <h3>More Than Just an App 🫶</h3>
+      <h2>More Than Just an App 🫶</h2>
       <p>
         NutriPup is a community, a resource, and a tool that evolves with the
         science of pet nutrition. We are committed to continuous learning and

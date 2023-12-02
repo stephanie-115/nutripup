@@ -8,11 +8,13 @@ import Contact from '../components/Contact';
 export default function Home() {
   return (
     <>
+    <div className="home-container">
       <About />
       <Features />
       <Testimonials />
       <FAQ />
       <Contact />
+      </div>
     </>
   );
 }

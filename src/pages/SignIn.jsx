@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { SuccessModal } from "./SignUp";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from '../contexts/AuthContext.js';
+import { useAuth } from "../contexts/AuthContext.js";
 
 export default function SignIn() {
   const [userData, setUserData] = useState({
@@ -17,13 +17,13 @@ export default function SignIn() {
 
   //close modal and redirect user
   const closeAndRedirect = () => {
-    navigate('/');
+    navigate("/");
     setShowSuccessModal(false);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData({...userData, [name]: value});
+    setUserData({ ...userData, [name]: value });
   };
 
   //set a timeout to redirect
@@ -31,7 +31,7 @@ export default function SignIn() {
     let timer;
     if (showSuccessModal) {
       timer = setTimeout(() => {
-        navigate('/');
+        navigate("/");
         setShowSuccessModal(false);
       }, 3000);
     }
@@ -52,7 +52,7 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include'
+        credentials: "include",
       });
       //check if http response isn't successful
       if (!response.ok) {
@@ -72,15 +72,15 @@ export default function SignIn() {
   };
   return (
     <div className="container">
-        {showSuccessModal ? (
-            //render only the success modal when it's open
-            <SuccessModal isOpen={showSuccessModal} onClose={closeAndRedirect} />
-        ) : (
+      {showSuccessModal ? (
+        //render only the success modal when it's open
+        <SuccessModal isOpen={showSuccessModal} onClose={closeAndRedirect} />
+      ) : (
         <>
-        <h1>Sign In Here</h1>
-        {error && <p className="error">{error}</p>}
-        {isSuccess && <p>Sign In successful!</p>}
-        <form onSubmit={handleSubmit}>
+          <h1>Sign In Here</h1>
+          {error && <p className="error">{error}</p>}
+          {isSuccess && <p>Sign In successful!</p>}
+          <form onSubmit={handleSubmit} className="form-container">
             <input
               name="email"
               type="email"
@@ -89,7 +89,7 @@ export default function SignIn() {
               value={userData.email}
               onChange={handleChange}
             />
-            <input 
+            <input
               name="password"
               type="password"
               placeholder="Password"
@@ -102,11 +102,11 @@ export default function SignIn() {
               className="signup-button"
               disabled={isLoading}
             >
-                {isLoading ? 'Loading...' : 'Rejoin the Pack'}
+              {isLoading ? "Loading..." : "Rejoin the Pack"}
             </button>
-        </form>
+          </form>
         </>
-        )}
+      )}
     </div>
-  )
+  );
 }
