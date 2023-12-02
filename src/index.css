@@ -94,7 +94,11 @@ p {
 .contact-us-form input[type="email"],
 .contact-us-form textarea,
 .contact-us-form button {
-  max-width: 500px;
+  max-width: 700px;
+  width: 100%;
+  font-family: "Arial", sans-serif;
+  font-size: 1rem;
+  color: var(--color-dark); 
 }
 
 .contact-us-form .input-row input[type="text"],
@@ -112,8 +116,8 @@ p {
 .contact-us-form button {
   width: auto;
   margin: 20px 0 0 0; 
-  background-color: var(--color-secondary);
-  color: var(--color-dark);
+  background-color: var(--color-dark);
+  color: var(--color-light);
   transition: background-color 0.3s, transform 0.3s;
   padding: 7px;
   font-size: large;
@@ -122,8 +126,8 @@ p {
   cursor: pointer;
 }
 .contact-us-form button:hover {
-  background-color: var(--color-dark);
-  color: var(--color-light);
+  background-color: var(--color-primary);
+  color: var(--color-dark);
   transform: scale(1.05);
 }
 .contact-us-form {
@@ -525,3 +529,16 @@ button {
   margin-bottom: 0.5em !important;
 }
 
+.Accordion-root {
+  border-radius: 15px;
+}
+
+.Accordion-root:first-child .AccordionSummary-root {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.Accordion-root:last-child .AccordionDetails-root {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}

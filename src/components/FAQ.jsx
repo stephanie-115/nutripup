@@ -19,13 +19,15 @@ const CustomAnswer = styled(Typography)({
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  "&:not(:last-child)": {
-    borderBottom: 0,
-  },
-  "&:before": {
+  border: `1px solid var(--color-light)`,
+  borderRadius: '15px !important',
+  '&:before': {
     display: "none",
   },
+  '&.Mui-expanded': {
+    margin: 'auto',
+  },
+  backgroundColor: 'var(--color-light)'
 }));
 
 const AccordionSummary = styled((props) => (
@@ -34,7 +36,7 @@ const AccordionSummary = styled((props) => (
     {...props}
   />
 ))(({ theme }) => ({
-  backgroundColor: 'var(--color-light)',
+  backgroundColor: "var(--color-light)",
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
@@ -42,12 +44,14 @@ const AccordionSummary = styled((props) => (
   "& .MuiAccordionSummary-content": {
     marginLeft: theme.spacing(1),
   },
+  // borderRadius: '15px !important',
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  backgroundColor: 'var(--color-secondary)',
+  backgroundColor: '#468189',
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
+  borderRadius: '15px !important',
 }));
 
 export default function CustomizedAccordions() {
