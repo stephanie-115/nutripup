@@ -88,6 +88,8 @@ export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
           label="Ingredients"
           type="text"
           fullWidth
+          multiline
+          rows={8}
           value={editedRecipe.ingredients}
           onChange={handleInputChange}
         />
@@ -98,6 +100,8 @@ export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
           label="Recipe Content"
           type="text"
           fullWidth
+          multiline
+          rows={8}
           value={editedRecipe.recipe_content}
           onChange={handleInputChange}
         />
@@ -107,6 +111,8 @@ export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
           label="Nutrition"
           type="text"
           fullWidth
+          multiline
+          rows={3}
           value={editedRecipe.nutrition}
           onChange={handleInputChange}
         />

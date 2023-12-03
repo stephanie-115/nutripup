@@ -35,7 +35,7 @@ export default function CreateRecipe({ onNewRecipe, setIsLoading }) {
   return (
     <>
     <ToastContainer />
-    <button className="edit-button" onClick={handleSubmit}>Create New Recipe</button>
+    <button className="create-recipe-button" onClick={handleSubmit}>Create New Recipe</button>
     </>
   )
 }

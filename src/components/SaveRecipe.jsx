@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function SaveRecipe({
-  recipe_title,
-  ingredients,
-  recipeContent,
-  nutrition,
   newRecipe,
   setRecipes,
   onSave,
