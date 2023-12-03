@@ -42,6 +42,7 @@ export default function LoadingCarousel({ isLoading }) {
                 <div><img src="https://i.pinimg.com/originals/58/3e/7c/583e7c79bcd1d737f169f76c37bccb87.jpg" alt="Dog Chef 8" className="pup-image"/></div>
                 <div><img src="https://i.ytimg.com/vi/dvy-fqyYSqU/maxresdefault.jpg" alt="Dog Chef 9" className="pup-image"/></div>
                 <div><img src="https://cdn.shopify.com/s/files/1/0593/5408/7620/files/dachshund-steak-grilling.jpg" alt="Dog Chef 10" className="pup-image"/></div>
+                <div><img src="https://image.petmd.com/files/styles/978x550/public/homemade-dog-food.jpg" alt="Dog Chef 11" className="pup-image"/></div>
           </Slider>
           </div>
         )}

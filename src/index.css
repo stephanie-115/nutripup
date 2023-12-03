@@ -188,6 +188,23 @@ button {
   width: 100%;
   font-size: large;
 }
+
+.create-recipe-button {
+  background-color: var(--color-dark);
+  color: var(--color-primary);
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  width: auto;
+  font-size: 30px;
+  font-weight: 900;
+  padding: 15px;
+}
+.create-recipe-button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-dark);
+  transform: scale(1.00);
+}
 .contact-form {
   max-width: 500px;
   margin: 0 auto;

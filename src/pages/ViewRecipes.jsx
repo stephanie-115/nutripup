@@ -38,7 +38,7 @@ export default function ViewRecipes(props) {
       setRecipes(data.recipes);
 
       // check if current tab index exceeds the number of recipes
-      if(value >= data.recipes.length) {
+      if (value >= data.recipes.length) {
         setValue(data.recipes.length > 0 ? data.recipes.length - 1 : 0);
       }
     } catch (error) {
@@ -179,10 +179,6 @@ export default function ViewRecipes(props) {
           flexWrap: "wrap",
         }}
       >
-        <CreateRecipe
-          onNewRecipe={handleNewRecipe}
-          setIsLoading={setIsLoading}
-        />
         {newRecipe && (
           <Box
             p={3}
@@ -327,6 +323,19 @@ export default function ViewRecipes(props) {
           You don't have any recipes yet! 🍓🥒🥩🥦
         </Typography>
       )}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "10px 0", 
+        }}
+      >
+        <CreateRecipe
+          onNewRecipe={handleNewRecipe}
+          setIsLoading={setIsLoading}
+        />
+      </div>
+
       {showEditModal && selectedRecipe && (
         <EditRecipe
           recipe={selectedRecipe}
