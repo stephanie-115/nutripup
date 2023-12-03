@@ -1,10 +1,14 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 const CustomQuestion = styled(Typography)({
   color: "#468189",
@@ -12,7 +16,7 @@ const CustomQuestion = styled(Typography)({
 });
 
 const CustomAnswer = styled(Typography)({
-  color: '#9dbebb',
+  color: "#9dbebb",
   backgroundColor: "#9dbebb",
   fontFamily: "Arial",
 });
@@ -21,14 +25,14 @@ const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
   border: `1px solid var(--color-light)`,
-  borderRadius: '15px !important',
-  '&:before': {
+  borderRadius: "15px !important",
+  "&:before": {
     display: "none",
   },
-  '&.Mui-expanded': {
-    margin: 'auto',
+  "&.Mui-expanded": {
+    margin: "auto",
   },
-  backgroundColor: 'var(--color-light)'
+  backgroundColor: "var(--color-light)",
 }));
 
 const AccordionSummary = styled((props) => (
@@ -52,14 +56,20 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   backgroundColor: "var(--color-tertiary)",
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
-  borderRadius: '15px !important',
+  borderRadius: "15px !important",
 }));
 
 export default function Contact() {
   const [expanded, setExpanded] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    window.location.reload();
   };
 
   const handleSubmit = (e) => {
@@ -77,6 +87,7 @@ export default function Contact() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        setIsModalOpen(true);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -130,6 +141,23 @@ export default function Contact() {
           </CustomAnswer>
         </AccordionDetails>
       </Accordion>
+      <Dialog
+        open={isModalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="success-dialog-title"
+      >
+        <DialogTitle id="success-dialog-title">
+          {"Message Sent Successfully!"}
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            onClick={handleModalClose}
+            style={{ color: "var(--color-dark)" }}
+          >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
