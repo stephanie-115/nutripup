@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 export default function SaveRecipe({
   newRecipe,
   setRecipes,
   onSave,
 }) {
+  const [open, setOpen] = useState(false);
   const { dogId } = useParams();
 
   const handleSaveClick = async () => {
@@ -38,6 +43,7 @@ export default function SaveRecipe({
         const savedRecipeData = await response.json();
         console.log("Saved Recipe Data:", savedRecipeData);
         onSave(savedRecipeData)
+        setOpen(true);
         // Update your state here with the new recipe data
         setRecipes((prevRecipes) => [...prevRecipes, savedRecipeData])
       }
@@ -45,11 +51,28 @@ export default function SaveRecipe({
       console.error("Error in SaveRecipe Component,", error);
     }
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
       <button onClick={handleSaveClick} className="edit-button">
         Save
       </button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Recipe Saved Successfully!"}
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleClose} style={{ color: 'var(--color-dark)' }} >
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
