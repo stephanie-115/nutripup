@@ -14,6 +14,7 @@ export default function SaveRecipe({
   const { dogId } = useParams();
 
   const handleSaveClick = async () => {
+    setOpen(true);
     try {
       // forming recipe data from props
       const recipeData = {
@@ -42,10 +43,10 @@ export default function SaveRecipe({
         }
         const savedRecipeData = await response.json();
         console.log("Saved Recipe Data:", savedRecipeData);
-        onSave(savedRecipeData)
-        setOpen(true);
-        // Update your state here with the new recipe data
-        setRecipes((prevRecipes) => [...prevRecipes, savedRecipeData])
+        setTimeout(() => {
+          onSave(savedRecipeData); // Call onSave after a delay
+          setRecipes((prevRecipes) => [...prevRecipes, savedRecipeData]);
+        }, 1000);
       }
     } catch (error) {
       console.error("Error in SaveRecipe Component,", error);

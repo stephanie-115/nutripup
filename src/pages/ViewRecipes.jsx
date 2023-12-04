@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -24,7 +24,7 @@ export default function ViewRecipes(props) {
   const { dogId } = useParams();
 
   // Fetch recipes function
-  const fetchRecipes = async () => {
+  const fetchRecipes = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetch(`/recipe/display-all/${dogId}`, {
@@ -46,7 +46,7 @@ export default function ViewRecipes(props) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [dogId]);
 
   // Fetch recipes on mount
   useEffect(() => {
@@ -99,13 +99,11 @@ export default function ViewRecipes(props) {
     setValue(newValue);
   };
 
-  const updateRecipesAfterSave = (newRecipe) => {
+  const updateRecipesAfterSave = useCallback((newRecipe) => {
     fetchRecipes(); // re-fetch recipes
     setNewRecipe(null);
     setValue(0);
-  };
-
-  const handleDeleteRecipe = () => {};
+  }, [fetchRecipes]);
 
   //formatting the recipes
   const formatList = (text, delimiter) => {
@@ -326,8 +324,7 @@ export default function ViewRecipes(props) {
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
-          margin: "10px 0", 
+          justifyContent: "center", 
         }}
       >
         <CreateRecipe
