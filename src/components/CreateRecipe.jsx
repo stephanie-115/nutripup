@@ -4,12 +4,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-export default function CreateRecipe({ onNewRecipe, setIsLoading }) {
+export default function CreateRecipe({ onNewRecipe, setIsCreatingRecipe }) {
     const { dogId } = useParams();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
+        setIsCreatingRecipe(true);
         try {
           const response = await fetch(`http://localhost:8080/recipe/create/${dogId}`, {
             method: "GET",
@@ -29,7 +29,7 @@ export default function CreateRecipe({ onNewRecipe, setIsLoading }) {
            toast.error("Error: Unable to create recipe");
             console.error("Error in CreateRecipe component", error)
         }  finally {
-          setIsLoading(false);
+          setIsCreatingRecipe(false);
       }
       }
   return (

@@ -27,7 +27,7 @@ export default function DeleteRecipe({ dogId, fetchRecipes, recipeTitle }) {
       setTimeout(() => {
         setOpen(false);
         fetchRecipes();
-      }, 1000); 
+      }, 1500); 
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }
