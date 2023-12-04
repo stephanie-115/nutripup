@@ -43,6 +43,10 @@ export default function LoadingCarousel({ isLoading }) {
                 <div><img src="https://i.ytimg.com/vi/dvy-fqyYSqU/maxresdefault.jpg" alt="Dog Chef 9" className="pup-image"/></div>
                 <div><img src="https://cdn.shopify.com/s/files/1/0593/5408/7620/files/dachshund-steak-grilling.jpg" alt="Dog Chef 10" className="pup-image"/></div>
                 <div><img src="https://image.petmd.com/files/styles/978x550/public/homemade-dog-food.jpg" alt="Dog Chef 11" className="pup-image"/></div>
+                <div><img src="https://www.rover.com/blog/wp-content/uploads/2017/08/time-to-make-the-woofles.jpg" alt="Dog Chef 12" className="pup-image"/></div>
+                <div><img src="https://i1.wp.com/res.cloudinary.com/kohepets/image/upload/v1527318782/Chef-Dog-Cooking_kj6dai.jpg?fit=512%2C384&ssl=1" alt="Dog Chef 13" className="pup-image"/></div>
+                <div><img src="https://steamuserimages-a.akamaihd.net/ugc/947339560632715025/E3B0B95BB0FD7CE14B45CCBA9839482FDE46925B/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false" alt="Dog Chef 14" className="pup-image"/></div>
+                <div><img src="https://i.redd.it/0aupufs2epl11.jpg" alt="Dog Chef 15" className="pup-image"/></div>
           </Slider>
           </div>
         )}

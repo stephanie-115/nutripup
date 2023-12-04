@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function CreateDogProfile() {
   const [dogName, setDogName] = useState("");
   const [selectedNum, setSelectedNum] = useState(0);
-  const [yesNoChoice, setYesNoChoice] = useState(null);
+  const [yesNoChoice, setYesNoChoice] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
   const [dogBreed, setDogBreed] = useState("");
   const [allergies, setAllergies] = useState("");
