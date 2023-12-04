@@ -23,10 +23,11 @@ export default function DeleteRecipe({ dogId, fetchRecipes, recipeTitle }) {
       if (!response.ok) {
         throw new Error(`HTTP error status: ${response.status}`);
       }
-      //refresh recipe list after deletion
-      fetchRecipes();
-      // show success modal
       setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+        fetchRecipes();
+      }, 1000); 
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }

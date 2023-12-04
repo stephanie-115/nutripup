@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -24,7 +24,7 @@ export default function ViewRecipes(props) {
   const { dogId } = useParams();
 
   // Fetch recipes function
-  const fetchRecipes = useCallback(async () => {
+  const fetchRecipes = async () => {
     setIsLoading(true);
     try {
       const response = await fetch(`/recipe/display-all/${dogId}`, {
@@ -35,9 +35,10 @@ export default function ViewRecipes(props) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
+
       setRecipes(data.recipes);
 
-      // check if current tab index exceeds the number of recipes
+      // Adjust `value` after setting recipes
       if (value >= data.recipes.length) {
         setValue(data.recipes.length > 0 ? data.recipes.length - 1 : 0);
       }
@@ -46,7 +47,7 @@ export default function ViewRecipes(props) {
     } finally {
       setIsLoading(false);
     }
-  }, [dogId]);
+  };
 
   // Fetch recipes on mount
   useEffect(() => {
@@ -99,11 +100,11 @@ export default function ViewRecipes(props) {
     setValue(newValue);
   };
 
-  const updateRecipesAfterSave = useCallback((newRecipe) => {
+  const updateRecipesAfterSave = (newRecipe) => {
     fetchRecipes(); // re-fetch recipes
     setNewRecipe(null);
     setValue(0);
-  }, [fetchRecipes]);
+  };
 
   //formatting the recipes
   const formatList = (text, delimiter) => {
@@ -252,67 +253,82 @@ export default function ViewRecipes(props) {
         scrollButtons="auto"
         sx={{ ".Mui-selected": { color: "darkcyan !important" } }}
       >
-        {recipes.length > 0 ? (
-          recipes.map((recipe, index) => (
-            <Tab key={index} label={recipe.recipe_title} />
-          ))
-        ) : (
-          <Tab label="No Recipes Available" disabled />
-        )}
       </Tabs>
       {recipes.length > 0 ? (
-        recipes.map((recipe, index) => (
-          <div role="tabpanel" hidden={value !== index} key={index}>
-            {value === index && (
-              <Box p={3}>
-                <h2>{recipe.recipe_title}</h2>
-                <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-                  Ingredients:
-                </Typography>
-                <RecipeList
-                  listData={recipe.ingredients}
-                  delimiter={/-/} // Adjust if needed
-                  listType="disc"
-                />
-                <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-                  Instructions:
-                </Typography>
-                <RecipeList
-                  listData={recipe.recipe_content}
-                  delimiter={/\d+\.\s/} // Adjust if needed
-                  listType="decimal"
-                />
-                <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-                  Nutrition Values per Serving:
-                </Typography>
-                <RecipeList
-                  listData={recipe.nutrition}
-                  delimiter="\n"
-                  listType="none"
-                />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <button
-                    className="edit-button"
-                    onClick={() => handleEditClick(recipe)}
+        <>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{ ".Mui-selected": { color: "darkcyan !important" } }}
+          >
+            {recipes.map((recipe, index) => (
+              <Tab key={index} label={recipe.recipe_title} />
+            ))}
+          </Tabs>
+          {recipes.map((recipe, index) => (
+            <div role="tabpanel" hidden={value !== index} key={index}>
+              {value === index && (
+                <Box p={3}>
+                  <h2>{recipe.recipe_title}</h2>
+                  <Typography
+                    variant="subtitle1"
+                    style={{ fontWeight: "bold" }}
                   >
-                    Edit Recipe
-                  </button>
-                  <DeleteRecipe
-                    dogId={dogId}
-                    recipeTitle={recipe.recipe_title}
-                    fetchRecipes={fetchRecipes}
+                    Ingredients:
+                  </Typography>
+                  <RecipeList
+                    listData={recipe.ingredients}
+                    delimiter={/-/} // Adjust if needed
+                    listType="disc"
                   />
-                </div>
-              </Box>
-            )}
-          </div>
-        ))
+                  <Typography
+                    variant="subtitle1"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Instructions:
+                  </Typography>
+                  <RecipeList
+                    listData={recipe.recipe_content}
+                    delimiter={/\d+\.\s/} // Adjust if needed
+                    listType="decimal"
+                  />
+                  <Typography
+                    variant="subtitle1"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    Nutrition Values per Serving:
+                  </Typography>
+                  <RecipeList
+                    listData={recipe.nutrition}
+                    delimiter="\n"
+                    listType="none"
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <button
+                      className="edit-button"
+                      onClick={() => handleEditClick(recipe)}
+                    >
+                      Edit Recipe
+                    </button>
+                    <DeleteRecipe
+                      dogId={dogId}
+                      recipeTitle={recipe.recipe_title}
+                      fetchRecipes={fetchRecipes}
+                    />
+                  </div>
+                </Box>
+              )}
+            </div>
+          ))}
+        </>
       ) : (
         <Typography
           variant="h6"
@@ -324,7 +340,7 @@ export default function ViewRecipes(props) {
       <div
         style={{
           display: "flex",
-          justifyContent: "center", 
+          justifyContent: "center",
         }}
       >
         <CreateRecipe
