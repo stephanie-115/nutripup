@@ -22,6 +22,7 @@ function SignUp() {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +56,12 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //check if passwords match
+    if (userData.password !== userData.confirmPassword) {
+      setError("Passwords do not match!");
+      return;
+    }
 
     //reset error and loading states
     setError("");
@@ -119,6 +126,14 @@ function SignUp() {
               className="input"
               value={userData.password}
               onChange={handleChange}
+            />
+            <input 
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              className="input"
+              value={userData.confirmPassword}
+              onChange={(e) => setUserData({ ... userData, confirmPassword: e.target.value })}
             />
             <button
               type="submit"
