@@ -30,33 +30,34 @@ export default function EditRecipe({ recipe, onRecipeUpdate, onClose, dogId }) {
     }
   }, [recipe]);
 
-  
-
   const handleEdit = async () => {
     if (editedRecipe.isSaved) {
-    const recipeId = editedRecipe.id
+      const recipeId = editedRecipe.id;
       try {
-        const response = await fetch(`http://localhost:8080/recipe/edit/${dogId}/${recipeId}`, {
-          method: "PUT",
-          body: JSON.stringify(editedRecipe),
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include",
-        });
+        const response = await fetch(
+          `http://localhost:8080/recipe/edit/${dogId}/${recipeId}`,
+          {
+            method: "PUT",
+            body: JSON.stringify(editedRecipe),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
         if (!response.ok) {
           throw new Error(`HTTP error status: ${response.status}`);
         }
         //update local state with edited details
         onRecipeUpdate(editedRecipe);
-      } catch(error) {
-        console.error('Error updating recipe', error)
+      } catch (error) {
+        console.error("Error updating recipe", error);
       }
-    onClose();
-  } else {
-    onRecipeUpdate(editedRecipe);
-    onClose();
-  }
+      onClose();
+    } else {
+      onRecipeUpdate(editedRecipe);
+      onClose();
+    }
   };
 
   return (

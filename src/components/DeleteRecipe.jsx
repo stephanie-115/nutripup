@@ -27,7 +27,7 @@ export default function DeleteRecipe({ dogId, fetchRecipes, recipeTitle }) {
       setTimeout(() => {
         setOpen(false);
         fetchRecipes();
-      }, 1500); 
+      }, 1500);
     } catch (error) {
       console.error("Error deleting recipe:", error);
     }
@@ -51,7 +51,7 @@ export default function DeleteRecipe({ dogId, fetchRecipes, recipeTitle }) {
           {"Recipe Deleted Successfully!"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} style={{ color: 'var(--color-dark)' }} >
+          <Button onClick={handleClose} style={{ color: "var(--color-dark)" }}>
             OK
           </Button>
         </DialogActions>

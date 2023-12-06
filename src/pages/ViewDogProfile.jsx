@@ -103,16 +103,16 @@ export default function ViewDogProfile() {
           <span className="dog-label">Total Daily Carbs: </span>{" "}
           <span className="dog-value">{dog.carbs}</span>
         </p>
-    <div className="dog-button-container">
-        <button onClick={handleEditClick} className="edit-button">
-          Edit
-        </button>
-        <button
-          onClick={() => navigate(`/dog/view-recipes/${dogId}`)}
-          className="edit-button"
-        >
-          View Recipes
-        </button>
+        <div className="dog-button-container">
+          <button onClick={handleEditClick} className="edit-button">
+            Edit
+          </button>
+          <button
+            onClick={() => navigate(`/dog/view-recipes/${dogId}`)}
+            className="edit-button"
+          >
+            View Recipes
+          </button>
         </div>
         {showEditModal && (
           <EditDogModal

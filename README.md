@@ -11,10 +11,12 @@ The inspiration behind NutriPup stems from my personal experience during the pan
 ## Setup and Installation
 
 ### Prerequisites
+
 - Node.js
 - npm or yarn
 
 ### Installation
+
 1. Clone the repository:
    ```
    git clone https://github.com/yourusername/nutripup.git
@@ -32,7 +34,7 @@ The inspiration behind NutriPup stems from my personal experience during the pan
 3. **Get Nutrition Information:** Based on your input, receive a detailed breakdown of your dog's daily nutritional needs.
 4. **Generate and Save/Edit Recipes:** Optionally, generate and save recipes tailored to your dog's needs, which can be edited at any time.
 
-*Note: Screenshots and demos will be added to this section once the front end is set up.*
+_Note: Screenshots and demos will be added to this section once the front end is set up._
 
 ## Features
 
@@ -50,12 +52,14 @@ The inspiration behind NutriPup stems from my personal experience during the pan
 - [Webpack](https://webpack.js.org/)
 - [Babel](https://babeljs.io/)
 
-*For a complete list of dependencies, refer to `package.json`.*
+_For a complete list of dependencies, refer to `package.json`._
 
 ## Testing
+
 Unit testing is planned using Jest. Documentation will be updated with testing instructions once implemented.
 
 ## Contributing
+
 Contributions are welcome! If you are interested in helping improve NutriPup, please follow these steps:
 
 1. Fork the repository.

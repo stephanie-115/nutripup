@@ -5,11 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
-export default function SaveRecipe({
-  newRecipe,
-  setRecipes,
-  onSave,
-}) {
+export default function SaveRecipe({ newRecipe, setRecipes, onSave }) {
   const [open, setOpen] = useState(false);
   const { dogId } = useParams();
 
@@ -22,7 +18,7 @@ export default function SaveRecipe({
         ingredients: newRecipe.ingredients,
         recipe_content: newRecipe.recipe_content,
         nutrition: newRecipe.nutrition,
-      };      
+      };
 
       if (newRecipe && !newRecipe.id) {
         console.log("Saving Recipe Data:", recipeData);
@@ -69,7 +65,7 @@ export default function SaveRecipe({
           {"Recipe Saved Successfully!"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} style={{ color: 'var(--color-dark)' }} >
+          <Button onClick={handleClose} style={{ color: "var(--color-dark)" }}>
             OK
           </Button>
         </DialogActions>

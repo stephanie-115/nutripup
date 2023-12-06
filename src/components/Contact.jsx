@@ -19,7 +19,7 @@ const CustomAnswer = styled(Typography)({
   color: "#9dbebb",
   backgroundColor: "#9dbebb",
   fontFamily: "Arial",
-}).withComponent('div');
+}).withComponent("div");
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />

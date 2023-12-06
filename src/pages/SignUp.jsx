@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../index.css";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from '../contexts/AuthContext.js';
+import { useAuth } from "../contexts/AuthContext.js";
 
 const SuccessModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -11,7 +11,9 @@ const SuccessModal = ({ isOpen, onClose }) => {
       <div className="modal-content">
         <h2>Sign In Successful</h2>
         <p>Welcome! You will now be redirected to the homepage.</p>
-        <button onClick={onClose} className="modal-button">Close</button>
+        <button onClick={onClose} className="modal-button">
+          Close
+        </button>
       </div>
     </div>
   );
@@ -74,7 +76,7 @@ function SignUp() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include'
+        credentials: "include",
       });
       //check if http response isn't successful
       if (!response.ok) {
@@ -127,13 +129,15 @@ function SignUp() {
               value={userData.password}
               onChange={handleChange}
             />
-            <input 
+            <input
               name="confirmPassword"
               type="password"
               placeholder="Confirm Password"
               className="input"
               value={userData.confirmPassword}
-              onChange={(e) => setUserData({ ... userData, confirmPassword: e.target.value })}
+              onChange={(e) =>
+                setUserData({ ...userData, confirmPassword: e.target.value })
+              }
             />
             <button
               type="submit"

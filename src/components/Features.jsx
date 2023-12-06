@@ -12,10 +12,10 @@ export default function Features() {
       </p>
 
       <p>
-        Your dog's journey to optimum health is just three steps away: Sign up with
-        NutriPup, create your dog’s profile, and let our intelligent algorithm
-        craft a personalized nutrition plan. Monitor progress, make adjustments,
-        and celebrate health milestones, all through our app.
+        Your dog's journey to optimum health is just three steps away: Sign up
+        with NutriPup, create your dog’s profile, and let our intelligent
+        algorithm craft a personalized nutrition plan. Monitor progress, make
+        adjustments, and celebrate health milestones, all through our app.
       </p>
     </>
   );

@@ -74,7 +74,7 @@ export default function ViewAllPups() {
           {"Dog Deleted Successfully!"}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleClose} style={{ color: 'var(--color-dark)' }}>
+          <Button onClick={handleClose} style={{ color: "var(--color-dark)" }}>
             OK
           </Button>
         </DialogActions>

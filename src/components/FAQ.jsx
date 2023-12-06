@@ -8,26 +8,26 @@ import Typography from "@mui/material/Typography";
 
 const CustomQuestion = styled(Typography)({
   color: "#468189",
-  fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana',
+  fontFamily: "Segoe UI, Tahoma, Geneva, Verdana",
 });
 
 const CustomAnswer = styled(Typography)({
-  color: '#f4e9cd',
-  fontFamily: 'Arial',
+  color: "#f4e9cd",
+  fontFamily: "Arial",
 });
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
   border: `1px solid var(--color-light)`,
-  borderRadius: '15px !important',
-  '&:before': {
+  borderRadius: "15px !important",
+  "&:before": {
     display: "none",
   },
-  '&.Mui-expanded': {
-    margin: 'auto',
+  "&.Mui-expanded": {
+    margin: "auto",
   },
-  backgroundColor: 'var(--color-light)'
+  backgroundColor: "var(--color-light)",
 }));
 
 const AccordionSummary = styled((props) => (
@@ -48,10 +48,10 @@ const AccordionSummary = styled((props) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  backgroundColor: '#468189',
+  backgroundColor: "#468189",
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
-  borderRadius: '15px !important',
+  borderRadius: "15px !important",
 }));
 
 export default function CustomizedAccordions() {

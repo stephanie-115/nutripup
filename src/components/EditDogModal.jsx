@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,10 +12,10 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 
 const StyledButton = styled(Button)({
-  backgroundColor: '#031926',
-  color: '#f4e9cd',
-  '&:hover': {
-    backgroundColor: '#468189',
+  backgroundColor: "#031926",
+  color: "#f4e9cd",
+  "&:hover": {
+    backgroundColor: "#468189",
   },
 });
 
@@ -37,11 +37,16 @@ export default function EditDogModal({ dog, onClose, onSave }) {
   };
 
   return (
-    <Dialog open={true} onClose={onClose} aria-labelledby="form-dialog-title" PaperProps={{
-      style: {
-        backgroundColor: '#9dbebb',
-      },
-    }}>
+    <Dialog
+      open={true}
+      onClose={onClose}
+      aria-labelledby="form-dialog-title"
+      PaperProps={{
+        style: {
+          backgroundColor: "#9dbebb",
+        },
+      }}
+    >
       <DialogTitle id="form-dialog-title">Edit Dog</DialogTitle>
       <DialogContent>
         <TextField
@@ -105,11 +110,14 @@ export default function EditDogModal({ dog, onClose, onSave }) {
             value={editedDog.neutered ? "true" : "false"}
             label="Neutered"
             onChange={(e) => {
-              setEditedDog({ ...editedDog, neutered: e.target.value === "true" });
+              setEditedDog({
+                ...editedDog,
+                neutered: e.target.value === "true",
+              });
             }}
           >
-            <MenuItem value='true'>Yes</MenuItem>
-            <MenuItem value='false'>No</MenuItem>
+            <MenuItem value="true">Yes</MenuItem>
+            <MenuItem value="false">No</MenuItem>
           </Select>
         </FormControl>
 

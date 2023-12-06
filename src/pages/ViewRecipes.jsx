@@ -21,7 +21,7 @@ export default function ViewRecipes(props) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [newRecipe, setNewRecipe] = useState(null);
-  const [isCreatingRecipe, setIsCreatingRecipe] = useState(false); 
+  const [isCreatingRecipe, setIsCreatingRecipe] = useState(false);
   const { dogId } = useParams();
 
   // Fetch recipes function
@@ -253,8 +253,7 @@ export default function ViewRecipes(props) {
         variant="scrollable"
         scrollButtons="auto"
         sx={{ ".Mui-selected": { color: "darkcyan !important" } }}
-      >
-      </Tabs>
+      ></Tabs>
       {recipes.length > 0 ? (
         <>
           <Tabs
