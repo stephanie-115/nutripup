@@ -362,6 +362,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 .intro-dog-card button,
 .intro-dog-card a.view-profile-button {
@@ -374,6 +375,20 @@ button {
 .delete-button {
   flex: 1;
   margin: 3px;
+  min-width: 150px;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .intro-button-container {
+    flex-direction: column;
+  }
+
+  .view-profile-button,
+  .delete-button {
+    width: 100%;
+    margin: 5px 0; 
+  }
 }
 
 .parent-container {
