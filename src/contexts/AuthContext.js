@@ -14,7 +14,7 @@ export const AuthProvider = ({ children, signOut }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.isAuthenticated) {
-          // If user is authenticated, update user state
+          // if user is authenticated, update user state
           setUser(data.user);
         }
         // Set loading to false regardless of auth status
