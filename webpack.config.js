@@ -19,12 +19,6 @@ module.exports = {
       template: "./index.html",
     }),
   ],
-  // plugins: [
-  //   new webpack.HotModuleReplacementPlugin(),
-  //   new HtmlWebpackPlugin({
-  //     template: './index.html'
-  //     })
-  // ],
   module: {
     rules: [
       {

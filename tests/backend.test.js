@@ -15,6 +15,11 @@ describe("dogController tests", () => {
       next();
     });
     app.post("/dog/addDog", dogController.addDog);
+    app.put(`dog/edit/:dogId`, dogController.updateDog);
+  });
+
+  afterAll((done) => {
+    server.close(done);
   });
 
   beforeEach(() => {
@@ -37,4 +42,20 @@ describe("dogController tests", () => {
     const response = await request(app).post("/dog/addDog").send(mockDog);
     expect(response.statusCode).toBe(201);
   });
+
+  it("should update a dog's details successfully in the db", async () => {
+    const dogId = 1;
+
+    const mockDogUpdate = {
+      ideal_weight: 55,
+      activityLevel: "Active"
+    }
+
+    const response = await request(app)
+      .put(`/dog/edit/${dogId}`)
+      .send(mockDogUpdate);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe("Dog profile updated successfully");
+  })
 });
