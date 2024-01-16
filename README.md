@@ -56,7 +56,7 @@ _For a complete list of dependencies, refer to `package.json`._
 
 ## Testing
 
-Unit testing is planned using Jest. Documentation will be updated with testing instructions once implemented.
+Unit testing is currently being completed using Jest. Documentation will be updated with testing instructions once implemented.
 
 ## Contributing
 
